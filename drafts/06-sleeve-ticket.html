@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="classic">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sleeve and ticket — Chimp.OS Collection</title>
+  <script src="../js/boot.js"></script>
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <style>
+    .sleeve-page {
+      height: 100%;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) 214px;
+      gap: 12px;
+      padding: 14px 16px 12px;
+    }
+    .sleeve-page > * { min-height: 0; }
+    .top { overflow: hidden; }
+    .top {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 14px;
+    }
+    .big-ticket {
+      height: 100%;
+      padding: 22px 22px 18px 32px;
+      display: flex;
+      flex-direction: column;
+      background: var(--paper);
+      color: var(--paper-ink);
+    }
+    .ticket-band {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--accent);
+      color: var(--on-accent);
+      margin: -22px -22px 14px -10px;
+      padding: 10px 16px 8px;
+      font-family: var(--font-display);
+      letter-spacing: 0.14em;
+      font-size: 28px;
+    }
+    .big-ticket h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 68px;
+      line-height: 0.82;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+    .issue {
+      margin: 8px 0 0;
+      font-family: var(--font-display);
+      font-size: 42px;
+      color: color-mix(in srgb, var(--paper-ink) 80%, var(--accent));
+      line-height: 0.9;
+    }
+    .ticket-grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 16px;
+    }
+    .ticket-grid span {
+      display: block;
+      font-family: var(--font-ui);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+    .ticket-grid b { font-size: 16px; }
+    .barcode {
+      margin-top: auto;
+      height: 46px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--paper-ink) 0 2px,
+        transparent 2px 4px,
+        var(--paper-ink) 4px 5px,
+        transparent 5px 9px,
+        var(--paper-ink) 9px 12px,
+        transparent 12px 14px
+      );
+    }
+    .sleeve {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: 12px;
+      padding: 12px;
+    }
+    .sleeve .art-frame {
+      border-radius: calc(var(--radius) - 2px);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--bg);
+    }
+    .side-facts { display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+    .side-facts .num { font-size: 56px; color: var(--gold); }
+    .neighbors { min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+    .neighbors .shelf-row { align-items: stretch; }
+    .neighbors .vhs { width: auto; height: 148px; flex: 1; }
+    .neighbors .shelf { padding-bottom: 10px; }
+    .neighbors .shelf::after { box-shadow: none; }
+  </style>
+</head>
+<body data-screen="Sleeve &amp; ticket">
+  <div class="app fit">
+    <header id="topbar" class="topbar"></header>
+    <main class="stage">
+      <div class="sleeve-page">
+        <div class="top">
+          <article class="ticket big-ticket">
+            <div class="ticket-band"><span>Title card</span><span>No. 300</span></div>
+            <p class="kicker" style="color:inherit; opacity:0.65">Admit one copy</p>
+            <h2>Amazing Spider-Man</h2>
+            <p class="issue">#300 · 1988</p>
+            <div class="ticket-grid">
+              <div><span>Publisher</span><b>Marvel</b></div>
+              <div><span>Franchise</span><b>Spider-Man</b></div>
+              <div><span>Variant</span><b>Newsstand</b></div>
+              <div><span>Condition</span><b>Very Fine</b></div>
+              <div><span>Bin</span><b>Long box · Marvel</b></div>
+              <div><span>Tags</span><b>Key · Venom</b></div>
+            </div>
+            <div class="barcode" aria-hidden="true"></div>
+          </article>
+          <article class="panel sleeve">
+            <div class="art-frame"><div class="art" data-cover="asm-300"></div></div>
+            <div class="side-facts">
+              <p class="kicker">Sleeve</p>
+              <h3 class="aisle-sign"><span>Comics</span></h3>
+              <p class="num">$850</p>
+              <p class="note">First full Venom. The ticket is the record. The sleeve is the photo you filed.</p>
+              <a class="btn solid" href="05-rental-case.html?id=asm-300">Open as a case</a>
+            </div>
+          </article>
+        </div>
+        <section class="neighbors">
+          <div class="toolbar">
+            <h2 class="aisle-sign gold"><span>In this long box</span></h2>
+            <span class="grow">Marvel · same bin</span>
+          </div>
+          <div class="shelf">
+            <div class="shelf-row">
+              <a class="vhs" data-cat="comic" href="05-rental-case.html?id=xmen"><div class="vhs-spine"><span>X-Men 1</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="xmen"></div></div><div class="vhs-label"><strong>X-Men #1</strong><span>1991 · $8</span></div></div></a>
+              <a class="vhs" data-cat="comic" href="05-rental-case.html?id=saga-1"><div class="vhs-spine"><span>Saga 1</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="saga-1"></div></div><div class="vhs-label"><strong>Saga #1</strong><span>Image · $220</span></div></div></a>
+              <a class="vhs" data-cat="comic" href="05-rental-case.html?id=joke"><div class="vhs-spine"><span>Killing Joke</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="joke"></div></div><div class="vhs-label"><strong>The Killing Joke</strong><span>DC · $140</span></div></div></a>
+              <a class="vhs" data-cat="comic" href="05-rental-case.html?id=sandman"><div class="vhs-spine"><span>Sandman 1</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="sandman"></div></div><div class="vhs-label"><strong>Sandman #1</strong><span>DC · $120</span></div></div></a>
+              <a class="vhs" data-cat="funko" href="05-rental-case.html?id=funko-spidey"><div class="vhs-spine"><span>Spidey 01</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="funko-spidey"></div></div><div class="vhs-label"><strong>Spider-Man</strong><span>Pop · 01 · $45</span></div></div></a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="../js/shell.js"></script>
+  <script src="../js/catalog.js"></script>
+</body>
+</html>

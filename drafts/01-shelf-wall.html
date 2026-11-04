@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="classic">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shelf wall — Chimp.OS Collection</title>
+  <script src="../js/boot.js"></script>
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <style>
+    .wall { height: 100%; display: grid; grid-template-columns: 276px 1fr; }
+    .wall-main {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 14px 18px 16px;
+    }
+    .shelf-block { display: flex; flex-direction: column; gap: 8px; }
+    .wall .vhs { width: 164px; height: 262px; }
+    .foot-line {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-family: var(--font-ui);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body data-screen="Shelf wall">
+  <div class="app fit">
+    <header id="topbar" class="topbar"></header>
+    <main class="stage">
+      <div class="wall" data-browser data-sort="recent">
+        <aside class="filters">
+          <div>
+            <p class="kicker">Aisles</p>
+            <div class="filter-stack" style="margin-top:8px">
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="all" aria-pressed="true"><span>All aisles <em>33,003</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="comic"><span>Comics <em>10,482</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="mtg"><span>Magic <em>19,847</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="funko"><span>Funko <em>1,306</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="game"><span>Games <em>640</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="manga"><span>Manga <em>410</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="figure"><span>Figures <em>188</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="memo"><span>Memorabilia <em>96</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="pi"><span>Pi &amp; gear <em>34</em></span></button>
+            </div>
+          </div>
+          <div>
+            <p class="kicker">Sort</p>
+            <div class="chip-row" style="margin-top:8px">
+              <button type="button" class="chip" data-sort="recent" aria-pressed="true">Recent</button>
+              <button type="button" class="chip" data-sort="title">Title</button>
+              <button type="button" class="chip" data-sort="value">Value</button>
+              <button type="button" class="chip" data-sort="aisle">Aisle</button>
+            </div>
+          </div>
+          <div>
+            <p class="kicker">Bin</p>
+            <div class="chip-row" style="margin-top:8px">
+              <button type="button" class="chip is-on">All bins</button>
+              <button type="button" class="chip">Long boxes</button>
+              <button type="button" class="chip">Binders</button>
+              <button type="button" class="chip">POP wall</button>
+              <button type="button" class="chip">Safe</button>
+            </div>
+          </div>
+          <div>
+            <p class="kicker">Condition</p>
+            <div class="chip-row" style="margin-top:8px">
+              <button type="button" class="chip is-on">Any</button>
+              <button type="button" class="chip">Sealed</button>
+              <button type="button" class="chip">Near mint</button>
+              <button type="button" class="chip">Played</button>
+            </div>
+          </div>
+        </aside>
+        <div class="wall-main">
+          <div class="toolbar">
+            <h2 class="aisle-sign"><span>New releases</span></h2>
+            <span class="grow">Filed this month · face out</span>
+          </div>
+          <section class="shelf-block">
+            <div class="shelf">
+              <div class="shelf-row" data-sort-list>
+                <a class="vhs" data-cat="funko" data-item data-title="grogu" data-value="18" data-recent="1" href="05-rental-case.html?id=grogu"><div class="vhs-spine"><span>Grogu</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="grogu"></div></div><div class="vhs-label"><strong>Grogu</strong><span>Pop · 465 · $18</span></div></div></a>
+                <a class="vhs" data-cat="mtg" data-item data-title="the one ring" data-value="89" data-recent="2" href="05-rental-case.html?id=one-ring"><div class="vhs-spine"><span>One Ring</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="one-ring"></div></div><div class="vhs-label"><strong>The One Ring</strong><span>LTR · 001 · $89</span></div></div></a>
+                <a class="vhs" data-cat="comic" data-item data-title="saga #1" data-value="220" data-recent="3" href="05-rental-case.html?id=saga-1"><div class="vhs-spine"><span>Saga 1</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="saga-1"></div></div><div class="vhs-label"><strong>Saga #1</strong><span>Image · 2012 · $220</span></div></div></a>
+                <a class="vhs" data-cat="pi" data-item data-title="raspberry pi 5 8gb" data-value="80" data-recent="4" href="05-rental-case.html?id=pi-5"><div class="vhs-spine"><span>Pi 5</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="pi-5"></div></div><div class="vhs-label"><strong>Raspberry Pi 5 8GB</strong><span>Board · $80</span></div></div></a>
+                <a class="vhs" data-cat="funko" data-item data-title="vegeta metallic" data-value="64" data-recent="5" href="05-rental-case.html?id=vegeta"><div class="vhs-spine"><span>Vegeta</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="vegeta"></div></div><div class="vhs-label"><strong>Vegeta Metallic</strong><span>Pop · 10 · $64</span></div></div></a>
+                <a class="vhs" data-cat="game" data-item data-title="chrono trigger" data-value="420" data-recent="6" href="05-rental-case.html?id=chrono"><div class="vhs-spine"><span>Chrono</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="chrono"></div></div><div class="vhs-label"><strong>Chrono Trigger</strong><span>SNES · $420</span></div></div></a>
+              </div>
+            </div>
+          </section>
+          <div class="toolbar">
+            <h2 class="aisle-sign alt"><span>Magic</span></h2>
+            <span class="grow">Binder row · 19,847 cards in the aisle</span>
+          </div>
+          <section class="shelf-block">
+            <div class="shelf">
+              <div class="shelf-row" data-sort-list>
+                <a class="vhs" data-cat="mtg" data-item data-title="the one ring" data-value="89" data-recent="2" href="05-rental-case.html?id=one-ring"><div class="vhs-spine"><span>One Ring</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="one-ring"></div></div><div class="vhs-label"><strong>The One Ring</strong><span>LTR · 001 · $89</span></div></div></a>
+                <a class="vhs" data-cat="mtg" data-item data-title="sol ring" data-value="7.5" data-recent="4" href="05-rental-case.html?id=sol-ring"><div class="vhs-spine"><span>Sol Ring</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="sol-ring"></div></div><div class="vhs-label"><strong>Sol Ring</strong><span>CMM · foil · $7.50</span></div></div></a>
+                <a class="vhs" data-cat="mtg" data-item data-title="ragavan, nimble pilferer" data-value="42" data-recent="10" href="05-rental-case.html?id=ragavan"><div class="vhs-spine"><span>Ragavan</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="ragavan"></div></div><div class="vhs-label"><strong>Ragavan, Nimble Pilferer</strong><span>MH2 · 138 · $42</span></div></div></a>
+                <a class="vhs" data-cat="mtg" data-item data-title="rhystic study" data-value="40" data-recent="13" href="05-rental-case.html?id=rhystic"><div class="vhs-spine"><span>Rhystic</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="rhystic"></div></div><div class="vhs-label"><strong>Rhystic Study</strong><span>WOT · 221 · $40</span></div></div></a>
+                <a class="vhs" data-cat="mtg" data-item data-title="black lotus" data-value="12000" data-recent="20" href="05-rental-case.html?id=lotus"><div class="vhs-spine"><span>Lotus</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="lotus"></div></div><div class="vhs-label"><strong>Black Lotus</strong><span>Unlimited · $12,000</span></div></div></a>
+                <a class="vhs" data-cat="mtg" data-item data-title="lightning bolt" data-value="1.8" data-recent="21" href="05-rental-case.html?id=bolt"><div class="vhs-spine"><span>Bolt</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="bolt"></div></div><div class="vhs-label"><strong>Lightning Bolt</strong><span>2X2 · 117 · $1.80</span></div></div></a>
+              </div>
+            </div>
+          </section>
+          <p class="foot-line"><span>A sample of the wall</span><span>Be kind, rewind</span></p>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="../js/shell.js"></script>
+  <script src="../js/catalog.js"></script>
+  <script src="../js/browser.js"></script>
+</body>
+</html>

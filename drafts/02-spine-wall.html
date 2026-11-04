@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="classic">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Spine wall — Chimp.OS Collection</title>
+  <script src="../js/boot.js"></script>
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <style>
+    .spine-page {
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 14px;
+      padding: 14px 16px 16px;
+    }
+    .spine-main { min-width: 0; min-height: 0; display: flex; flex-direction: column; gap: 10px; }
+    .spine-rows { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 12px; }
+    .spine-row {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      gap: 7px;
+      align-items: stretch;
+      position: relative;
+      padding-bottom: 12px;
+    }
+    .spine-row::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 8px;
+      border-radius: 2px;
+      background: linear-gradient(var(--soft), color-mix(in srgb, black 40%, var(--bg)));
+      box-shadow: 0 7px 0 color-mix(in srgb, black 28%, transparent);
+    }
+    .spine-row .tape { width: 48px; height: auto; flex: none; }
+    .preview {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 14px;
+    }
+    .preview .vhs { width: 100%; height: 320px; }
+    .preview h3 { margin: 0; font-family: var(--font-display); font-size: 40px; letter-spacing: 0.04em; line-height: 0.9; font-weight: 400; }
+    .meta-line { margin: 0; color: var(--muted); font-family: var(--font-ui); letter-spacing: 0.08em; text-transform: uppercase; font-size: 12px; }
+    .price { margin: 0; font-family: var(--font-display); font-size: 42px; color: var(--gold); line-height: 0.9; }
+  </style>
+</head>
+<body data-screen="Spine wall">
+  <div class="app fit">
+    <header id="topbar" class="topbar"></header>
+    <main class="stage">
+      <div class="spine-page">
+        <div class="spine-main">
+          <div class="toolbar">
+            <h2 class="aisle-sign alt"><span>Magic</span></h2>
+            <div class="chip-row">
+              <button type="button" class="chip is-on">All sets</button>
+              <button type="button" class="chip">Binder · Red</button>
+              <button type="button" class="chip">Binder · Mythic</button>
+              <button type="button" class="chip">Safe</button>
+              <button type="button" class="chip">Foil only</button>
+            </div>
+            <span class="grow">19,847 titles · sample of the wall</span>
+          </div>
+          <div class="spine-rows" id="spine-rows"></div>
+        </div>
+        <aside class="panel preview">
+          <p class="kicker">Sleeve on the counter</p>
+          <a class="vhs" id="preview-case" data-cat="mtg" href="05-rental-case.html?id=lotus">
+            <div class="vhs-spine"><span id="preview-spine">Lotus</span></div>
+            <div class="vhs-face">
+              <div class="vhs-window"><div class="art" id="preview-art" data-cover="lotus"></div></div>
+              <div class="vhs-label"><strong id="spine-name">Black Lotus</strong><span id="preview-meta">Unlimited · 232</span></div>
+            </div>
+          </a>
+          <div>
+            <h3 id="preview-title">Black Lotus</h3>
+            <p class="meta-line" id="preview-bin">Safe · Power · Played</p>
+          </div>
+          <p class="price" id="preview-price">$12,000</p>
+          <a class="btn solid" id="preview-link" href="05-rental-case.html?id=lotus">Open the case</a>
+          <p class="note">Spines are how a 20,000-card aisle stays scannable. Click one to pull the sleeve.</p>
+        </aside>
+      </div>
+    </main>
+  </div>
+  <script src="../js/shell.js"></script>
+  <script src="../js/catalog.js"></script>
+  <script>
+    (function () {
+      var known = {
+        "Black Lotus": "lotus",
+        "The One Ring": "one-ring",
+        "Ragavan": "ragavan",
+        "Sol Ring": "sol-ring",
+        "Rhystic Study": "rhystic",
+        "Lightning Bolt": "bolt"
+      };
+      var rowsHost = document.getElementById("spine-rows");
+      var names = window.REWIND.spines.slice();
+      var per = Math.ceil(names.length / 3);
+      for (var r = 0; r < 3; r++) {
+        var row = document.createElement("div");
+        row.className = "spine-row";
+        names.slice(r * per, (r + 1) * per).forEach(function (name) {
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "tape" + (name === "Black Lotus" ? " is-selected" : "");
+          btn.setAttribute("data-cat", "mtg");
+          btn.innerHTML = '<span class="tape-label"></span>';
+          btn.querySelector(".tape-label").textContent = name;
+          btn.addEventListener("click", function () { select(name, btn); });
+          row.appendChild(btn);
+        });
+        rowsHost.appendChild(row);
+      }
+      function select(name, btn) {
+        rowsHost.querySelectorAll(".tape").forEach(function (el) { el.classList.remove("is-selected"); });
+        btn.classList.add("is-selected");
+        var id = known[name];
+        var entry = id ? window.REWIND.byId[id] : null;
+        document.getElementById("spine-name").textContent = entry ? entry.title : name;
+        document.getElementById("preview-title").textContent = entry ? entry.title : name;
+        document.getElementById("preview-spine").textContent = entry ? entry.spine : name;
+        document.getElementById("preview-meta").textContent = entry ? entry.meta : "Magic aisle";
+        document.getElementById("preview-bin").textContent = entry ? (entry.location + " · " + entry.condition) : "On the sample wall";
+        document.getElementById("preview-price").textContent = entry ? entry.valueLabel : "—";
+        var href = entry ? "05-rental-case.html?id=" + entry.id : "05-rental-case.html?id=lotus";
+        document.getElementById("preview-case").setAttribute("href", href);
+        document.getElementById("preview-link").setAttribute("href", href);
+        document.getElementById("preview-art").innerHTML = window.REWIND.coverArt(entry || {
+          category: "mtg",
+          short: name.toUpperCase().slice(0, 14),
+          mark: "•",
+          title: name
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

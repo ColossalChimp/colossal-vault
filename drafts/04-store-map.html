@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="classic">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Store map — Chimp.OS Collection</title>
+  <script src="../js/boot.js"></script>
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <style>
+    .map-page {
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr 390px;
+      gap: 14px;
+      padding: 14px 16px 16px;
+    }
+    .store {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 0.8fr;
+      grid-template-rows: 92px 1fr 1fr 78px 64px;
+      gap: 10px;
+      padding: 12px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background-color: color-mix(in srgb, var(--bg) 78%, black);
+      background-image:
+        linear-gradient(color-mix(in srgb, var(--line) 70%, transparent) 1px, transparent 1px),
+        linear-gradient(90deg, color-mix(in srgb, var(--line) 70%, transparent) 1px, transparent 1px);
+      background-size: 26px 26px;
+    }
+    .zone { text-align: left; cursor: pointer; border-radius: var(--radius); border: 1px solid var(--line); background: color-mix(in srgb, var(--panel) 92%, transparent); color: var(--ink); display: grid; grid-template-columns: 78px 1fr; overflow: hidden; min-height: 0; }
+    .zone .endcap { background: var(--cat, var(--accent)); color: var(--on-accent); display: grid; place-items: center; font-family: var(--font-display); letter-spacing: 0.05em; font-size: 16px; line-height: 0.9; padding: 6px; text-align: center; text-transform: uppercase; }
+    .zone .lanes { display: flex; flex-direction: column; justify-content: space-between; padding: 8px 10px; background: repeating-linear-gradient(to bottom, color-mix(in srgb, var(--soft) 75%, transparent) 0 6px, color-mix(in srgb, var(--bg) 70%, black) 6px 11px); }
+    .zone .lanes b { font-family: var(--font-display); font-size: 28px; font-weight: 400; line-height: 0.85; }
+    .zone .lanes span { font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); }
+    .zone.is-selected { box-shadow: var(--glow); border-color: var(--accent); }
+    .span-all { grid-column: 1 / -1; }
+    .span-2 { grid-column: span 2; }
+    .mat, .desk {
+      border-radius: var(--radius);
+      border: 1px dashed var(--line);
+      display: grid;
+      place-items: center;
+      font-family: var(--font-display);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: color-mix(in srgb, var(--panel) 70%, transparent);
+    }
+    .desk { color: var(--on-neon); background: var(--neon); border-style: solid; }
+    .aisle-detail { min-height: 0; display: flex; flex-direction: column; gap: 10px; padding: 12px; }
+    .pick-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .pick-row .vhs { width: 100%; height: 210px; }
+    .aisle-detail h3 { margin: 0; font-family: var(--font-display); font-size: 42px; line-height: 0.85; font-weight: 400; }
+  </style>
+</head>
+<body data-screen="Store map">
+  <div class="app fit">
+    <header id="topbar" class="topbar"></header>
+    <main class="stage">
+      <div class="map-page">
+        <div class="store" id="store">
+          <button type="button" class="zone span-all" data-cat="comic" data-aisle="new" data-count="48" data-label="New releases">
+            <span class="endcap">New</span>
+            <span class="lanes"><span>Front wall</span><b>48 just in</b></span>
+          </button>
+          <button type="button" class="zone span-2" data-cat="mtg" data-aisle="mtg" data-count="19,847" data-label="Magic">
+            <span class="endcap">Magic</span>
+            <span class="lanes"><span>Back aisle · binders</span><b>19,847</b></span>
+          </button>
+          <button type="button" class="zone" data-cat="funko" data-aisle="funko" data-count="1,306" data-label="Funko">
+            <span class="endcap">Funko</span>
+            <span class="lanes"><span>POP wall</span><b>1,306</b></span>
+          </button>
+          <button type="button" class="zone span-2 is-selected" data-cat="comic" data-aisle="comic" data-count="10,482" data-label="Comics">
+            <span class="endcap">Comics</span>
+            <span class="lanes"><span>Long boxes</span><b>10,482</b></span>
+          </button>
+          <button type="button" class="zone" data-cat="game" data-aisle="game" data-count="640" data-label="Games">
+            <span class="endcap">Games</span>
+            <span class="lanes"><span>Cartridge bay</span><b>640</b></span>
+          </button>
+          <button type="button" class="zone" data-cat="manga" data-aisle="manga" data-count="410" data-label="Manga">
+            <span class="endcap">Manga</span>
+            <span class="lanes"><span>Shelf</span><b>410</b></span>
+          </button>
+          <button type="button" class="zone" data-cat="figure" data-aisle="figure" data-count="188" data-label="Figures">
+            <span class="endcap">Figures</span>
+            <span class="lanes"><span>Detolf</span><b>188</b></span>
+          </button>
+          <button type="button" class="zone" data-cat="pi" data-aisle="pi" data-count="34" data-label="Pi &amp; gear">
+            <span class="endcap">Pi</span>
+            <span class="lanes"><span>Rack</span><b>34</b></span>
+          </button>
+          <div class="mat span-2">Be kind, rewind · entrance</div>
+          <a class="desk" href="07-returns-counter.html">Returns</a>
+        </div>
+        <aside class="panel aisle-detail">
+          <p class="kicker" id="map-kicker">Aisle open</p>
+          <h3 id="map-title">Comics</h3>
+          <p class="note" id="map-count">10,482 titles in the long boxes. Four from the sample shelf are face out.</p>
+          <div class="chip-row">
+            <button type="button" class="chip is-on">Any condition</button>
+            <button type="button" class="chip">Keys</button>
+            <button type="button" class="chip">By value</button>
+          </div>
+          <div class="pick-row" id="map-picks"></div>
+          <a class="btn solid" id="map-link" href="01-shelf-wall.html">Browse this aisle</a>
+        </aside>
+      </div>
+    </main>
+  </div>
+  <script src="../js/shell.js"></script>
+  <script src="../js/catalog.js"></script>
+  <script>
+    (function () {
+      var picks = {
+        comic: ["asm-300", "saga-1", "joke", "sandman"],
+        mtg: ["one-ring", "lotus", "ragavan", "sol-ring"],
+        funko: ["grogu", "vegeta", "funko-spidey", "grogu"],
+        game: ["chrono", "zelda", "chrono", "zelda"],
+        manga: ["berserk", "akira", "berserk", "akira"],
+        figure: ["hot-toys", "hot-toys", "hot-toys", "hot-toys"],
+        pi: ["pi-5", "pi-5", "pi-5", "pi-5"],
+        memo: ["blade", "blade", "blade", "blade"],
+        new: ["grogu", "one-ring", "saga-1", "pi-5"]
+      };
+      var host = document.getElementById("map-picks");
+      function render(aisle, label, count) {
+        document.getElementById("map-title").textContent = label;
+        document.getElementById("map-count").textContent = count + " on this aisle. Face-out copies from the sample shelf.";
+        host.innerHTML = "";
+        (picks[aisle] || picks.comic).slice(0, 4).forEach(function (id) {
+          var entry = window.REWIND.byId[id];
+          var a = document.createElement("a");
+          a.className = "vhs";
+          a.setAttribute("data-cat", entry.category);
+          a.href = "05-rental-case.html?id=" + entry.id;
+          a.innerHTML = '<div class="vhs-spine"><span></span></div><div class="vhs-face"><div class="vhs-window"><div class="art"></div></div><div class="vhs-label"><strong></strong><span></span></div></div>';
+          a.querySelector(".vhs-spine span").textContent = entry.spine;
+          a.querySelector(".art").innerHTML = window.REWIND.coverArt(entry);
+          a.querySelector("strong").textContent = entry.title;
+          a.querySelector(".vhs-label span").textContent = entry.valueLabel;
+          host.appendChild(a);
+        });
+      }
+      document.getElementById("store").addEventListener("click", function (event) {
+        var zone = event.target.closest(".zone");
+        if (!zone) return;
+        document.querySelectorAll(".zone").forEach(function (el) { el.classList.remove("is-selected"); });
+        zone.classList.add("is-selected");
+        render(zone.dataset.aisle, zone.dataset.label, zone.dataset.count);
+      });
+      render("comic", "Comics", "10,482");
+    })();
+  </script>
+</body>
+</html>

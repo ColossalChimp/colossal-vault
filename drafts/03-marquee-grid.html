@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="classic">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Marquee grid — Chimp.OS Collection</title>
+  <script src="../js/boot.js"></script>
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <style>
+    .marquee-page {
+      height: 100%;
+      display: grid;
+      grid-template-rows: 188px 1fr;
+      gap: 12px;
+      padding: 14px 16px 16px;
+    }
+    .feature {
+      display: grid;
+      grid-template-columns: 148px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 12px 16px;
+      background:
+        radial-gradient(circle at 12px 12px, var(--gold) 3px, transparent 4px) 0 0 / 22px 22px,
+        var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .feature-copy .title {
+      margin: 4px 0 6px;
+      font-family: var(--font-display);
+      font-size: 44px;
+      line-height: 0.88;
+      letter-spacing: 0.03em;
+      font-weight: 400;
+    }
+    .stack { min-height: 0; display: flex; flex-direction: column; gap: 10px; }
+    .grid { flex: 1; min-height: 0; }
+    .marquee-page > * { min-height: 0; }
+    .feature-copy p:not(.title) { margin: 0; max-width: 46ch; color: var(--muted); }
+    .feature .vhs { width: 132px; height: 164px; }
+    .feature-side { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    .feature-side strong {
+      font-family: var(--font-display);
+      font-size: 48px;
+      color: var(--gold);
+      line-height: 0.85;
+      font-weight: 400;
+    }
+    .grid {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: 1fr 1fr;
+      gap: 12px;
+    }
+    .poster { height: 100%; }
+  </style>
+</head>
+<body data-screen="Marquee grid">
+  <div class="app fit">
+    <header id="topbar" class="topbar"></header>
+    <main class="stage">
+      <div class="marquee-page" data-browser data-sort="title">
+        <section class="feature">
+          <a class="vhs" data-cat="comic" href="06-sleeve-ticket.html">
+            <div class="vhs-spine"><span>ASM 300</span></div>
+            <div class="vhs-face">
+              <div class="vhs-window"><div class="art" data-cover="asm-300"></div></div>
+              <div class="vhs-label"><strong>ASM #300</strong><span>Now showing</span></div>
+            </div>
+          </a>
+          <div class="feature-copy">
+            <h2 class="aisle-sign"><span>Now showing</span></h2>
+            <p class="title">Amazing Spider-Man #300</p>
+            <p>Face-out wall for the titles you want to see from the door. Filters sit on the ticket stubs. Sort keeps the posters in order.</p>
+          </div>
+          <div class="feature-side">
+            <span class="kicker">Est. value</span>
+            <strong>$850</strong>
+            <a class="btn solid" href="06-sleeve-ticket.html">Pull the sleeve</a>
+          </div>
+        </section>
+        <div class="stack">
+          <div class="toolbar">
+            <div class="chip-row">
+              <button type="button" class="chip" data-filter-cat="all" aria-pressed="true">All</button>
+              <button type="button" class="chip" data-filter-cat="comic">Comics</button>
+              <button type="button" class="chip" data-filter-cat="funko">Funko</button>
+              <button type="button" class="chip" data-filter-cat="game">Games</button>
+              <button type="button" class="chip" data-filter-cat="manga">Manga</button>
+              <button type="button" class="chip" data-filter-cat="mtg">Magic</button>
+            </div>
+            <div class="chip-row" style="margin-left:auto">
+              <button type="button" class="chip" data-sort="title" aria-pressed="true">Title</button>
+              <button type="button" class="chip" data-sort="value">Value</button>
+              <button type="button" class="chip" data-sort="recent">Recent</button>
+            </div>
+          </div>
+          <div class="grid" data-sort-list>
+            <a class="poster" data-cat="comic" data-item data-title="amazing spider-man #300" data-value="850" data-recent="8" href="06-sleeve-ticket.html"><div class="art" data-cover="asm-300"></div><div class="poster-cap"><strong>Amazing Spider-Man #300</strong><em>$850</em></div></a>
+            <a class="poster" data-cat="manga" data-item data-title="akira vol. 1" data-value="45" data-recent="18" href="05-rental-case.html?id=akira"><div class="art" data-cover="akira"></div><div class="poster-cap"><strong>Akira Vol. 1</strong><em>$45</em></div></a>
+            <a class="poster" data-cat="manga" data-item data-title="berserk vol. 1" data-value="55" data-recent="9" href="05-rental-case.html?id=berserk"><div class="art" data-cover="berserk"></div><div class="poster-cap"><strong>Berserk Vol. 1</strong><em>$55</em></div></a>
+            <a class="poster" data-cat="memo" data-item data-title="blade runner poster" data-value="180" data-recent="15" href="05-rental-case.html?id=blade"><div class="art" data-cover="blade"></div><div class="poster-cap"><strong>Blade Runner poster</strong><em>$180</em></div></a>
+            <a class="poster" data-cat="game" data-item data-title="chrono trigger" data-value="420" data-recent="6" href="05-rental-case.html?id=chrono"><div class="art" data-cover="chrono"></div><div class="poster-cap"><strong>Chrono Trigger</strong><em>$420</em></div></a>
+            <a class="poster" data-cat="funko" data-item data-title="grogu" data-value="18" data-recent="1" href="05-rental-case.html?id=grogu"><div class="art" data-cover="grogu"></div><div class="poster-cap"><strong>Grogu</strong><em>$18</em></div></a>
+            <a class="poster" data-cat="figure" data-item data-title="hot toys batman" data-value="310" data-recent="11" href="05-rental-case.html?id=hot-toys"><div class="art" data-cover="hot-toys"></div><div class="poster-cap"><strong>Hot Toys Batman</strong><em>$310</em></div></a>
+            <a class="poster" data-cat="comic" data-item data-title="invincible #1" data-value="90" data-recent="17" href="05-rental-case.html?id=invincible"><div class="art" data-cover="invincible"></div><div class="poster-cap"><strong>Invincible #1</strong><em>$90</em></div></a>
+            <a class="poster" data-cat="funko" data-item data-title="spider-man" data-value="45" data-recent="7" href="05-rental-case.html?id=funko-spidey"><div class="art" data-cover="funko-spidey"></div><div class="poster-cap"><strong>Spider-Man</strong><em>$45</em></div></a>
+            <a class="poster" data-cat="funko" data-item data-title="vegeta metallic" data-value="64" data-recent="5" href="05-rental-case.html?id=vegeta"><div class="art" data-cover="vegeta"></div><div class="poster-cap"><strong>Vegeta Metallic</strong><em>$64</em></div></a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="../js/shell.js"></script>
+  <script src="../js/catalog.js"></script>
+  <script src="../js/browser.js"></script>
+</body>
+</html>

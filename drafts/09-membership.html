@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="classic">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Membership — Chimp.OS Collection</title>
+  <script src="../js/boot.js"></script>
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <style>
+    .club {
+      height: 100%;
+      display: grid;
+      grid-template-rows: 230px 1fr auto;
+      gap: 12px;
+      padding: 14px 16px 14px;
+    }
+    .top {
+      display: grid;
+      grid-template-columns: 460px 1fr 1fr 1fr;
+      gap: 12px;
+      min-height: 0;
+    }
+    .card-kicker { font-family: var(--font-ui); letter-spacing: 0.18em; text-transform: uppercase; font-size: 12px; color: var(--gold); }
+    .card-body h2 { margin: 6px 0 0; font-family: var(--font-display); font-size: 54px; line-height: 0.85; font-weight: 400; letter-spacing: 0.04em; }
+    .card-name { margin: 8px 0 0; font-family: var(--font-ui); font-size: 18px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .card-foot { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; }
+    .card-foot b { font-family: var(--font-display); font-size: 28px; font-weight: 400; }
+    .stat {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .stat .num { font-size: 64px; }
+    .stat .gold { color: var(--gold); }
+    .case {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 1fr 1fr;
+      gap: 10px;
+      padding: 12px;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, white 12%, transparent), transparent 28%),
+        var(--panel);
+    }
+    .trophy {
+      overflow: hidden;
+      border-radius: calc(var(--radius) - 2px);
+      border: 1px solid var(--line);
+      background: color-mix(in srgb, var(--bg) 45%, transparent);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: inset 4px 0 0 var(--cat);
+      min-width: 0;
+    }
+    .trophy .num { font-size: 40px; }
+    .trophy em { font-style: normal; color: var(--gold); font-family: var(--font-display); font-size: 22px; }
+    .club-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-display);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body data-screen="Membership">
+  <div class="app fit">
+    <header id="topbar" class="topbar"></header>
+    <main class="stage">
+      <div class="club">
+        <section class="top">
+          <article class="member-card">
+            <div class="card-body">
+              <span class="card-kicker">Membership</span>
+              <h2>Rewind</h2>
+              <p class="card-name">Colossal Chimp · RW-33003</p>
+              <div class="card-foot">
+                <span>Member since 1996<br />No late fees</span>
+                <b>33,003</b>
+              </div>
+            </div>
+          </article>
+          <article class="panel stat">
+            <span class="kicker">Titles</span>
+            <span class="num">33,003</span>
+            <span class="note">Eight aisles, one membership</span>
+          </article>
+          <article class="panel stat">
+            <span class="kicker">Estimated value</span>
+            <span class="num gold">$196,850</span>
+            <span class="note">Guide prices where we have them</span>
+          </article>
+          <article class="panel stat">
+            <span class="kicker">Top shelf</span>
+            <span class="num" style="font-size:40px">Lotus</span>
+            <span class="note">Black Lotus · Unlimited · $12,000</span>
+          </article>
+        </section>
+        <section class="panel case" aria-label="Aisle trophies">
+          <article class="trophy" data-cat="comic"><span class="aisle-sign compact"><span>Comics</span></span><span class="num">10,482</span><em>$42,600</em></article>
+          <article class="trophy" data-cat="mtg"><span class="aisle-sign compact alt"><span>Magic</span></span><span class="num">19,847</span><em>$86,400</em></article>
+          <article class="trophy" data-cat="funko"><span class="aisle-sign compact gold"><span>Funko</span></span><span class="num">1,306</span><em>$18,200</em></article>
+          <article class="trophy" data-cat="game"><span class="aisle-sign compact"><span>Games</span></span><span class="num">640</span><em>$22,100</em></article>
+          <article class="trophy" data-cat="manga"><span class="aisle-sign compact"><span>Manga</span></span><span class="num">410</span><em>$6,400</em></article>
+          <article class="trophy" data-cat="figure"><span class="aisle-sign compact"><span>Figures</span></span><span class="num">188</span><em>$14,800</em></article>
+          <article class="trophy" data-cat="memo"><span class="aisle-sign compact"><span>Memo</span></span><span class="num">96</span><em>$4,200</em></article>
+          <article class="trophy" data-cat="pi"><span class="aisle-sign compact"><span>Pi &amp; gear</span></span><span class="num">34</span><em>$2,150</em></article>
+        </section>
+        <p class="club-foot"><span>Trophy case</span><span>Be kind, rewind</span></p>
+      </div>
+    </main>
+  </div>
+  <script src="../js/shell.js"></script>
+  <script src="../js/catalog.js"></script>
+</body>
+</html>

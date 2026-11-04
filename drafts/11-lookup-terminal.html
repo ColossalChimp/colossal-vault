@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="classic">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lookup terminal — Chimp.OS Collection</title>
+  <script src="../js/boot.js"></script>
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <style>
+    .terminal { height: 100%; display: grid; grid-template-columns: 280px 1fr; }
+    .desk { min-width: 0; min-height: 0; display: flex; flex-direction: column; padding: 14px 16px 12px; gap: 10px; }
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 12px;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .search span { font-family: var(--font-ui); letter-spacing: 0.14em; text-transform: uppercase; font-size: 12px; color: var(--accent); }
+    .search input {
+      flex: 1;
+      background: transparent;
+      border: 0;
+      font-size: 18px;
+      padding: 4px 0;
+    }
+    .sheet { flex: 1; min-height: 0; overflow: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      position: sticky;
+      top: 0;
+      background: var(--soft);
+      text-align: left;
+      font-family: var(--font-ui);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 10px;
+      cursor: pointer;
+      color: var(--muted);
+    }
+    th[aria-sort="descending"], th[aria-sort="ascending"] { color: var(--on-accent); background: var(--accent); }
+    td { padding: 8px 10px; border-top: 1px solid color-mix(in srgb, var(--line) 75%, transparent); vertical-align: middle; }
+    td a { font-weight: 600; }
+    td small { display: block; color: var(--muted); font-size: 12px; }
+    .mini-spine { width: 10px; height: 28px; border-radius: 2px; background: var(--cat); display: inline-block; }
+    .num-cell { font-family: var(--font-display); font-size: 22px; color: var(--gold); text-align: right; }
+    tr[hidden] { display: none; }
+  </style>
+</head>
+<body data-screen="Lookup terminal">
+  <div class="app fit">
+    <header id="topbar" class="topbar"></header>
+    <main class="stage">
+      <div class="terminal" data-browser data-sort="value">
+        <aside class="filters">
+          <div>
+            <p class="kicker">Aisle</p>
+            <div class="filter-stack" style="margin-top:8px">
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="all" aria-pressed="true"><span>All <em>33,003</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="comic"><span>Comics <em>10,482</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="mtg"><span>Magic <em>19,847</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="funko"><span>Funko <em>1,306</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="game"><span>Games <em>640</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="manga"><span>Manga <em>410</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="figure"><span>Figures <em>188</em></span></button>
+            </div>
+          </div>
+          <div>
+            <p class="kicker">Value</p>
+            <div class="chip-row" style="margin-top:8px">
+              <button type="button" class="chip is-on">Any</button>
+              <button type="button" class="chip">Under $20</button>
+              <button type="button" class="chip">$20–$200</button>
+              <button type="button" class="chip">$200+</button>
+            </div>
+          </div>
+          <p class="note">The in-store computer. Search, sort, and jump to a case. Built for the days the wall is too big to walk.</p>
+        </aside>
+        <section class="desk">
+          <label class="search">
+            <span>Title search</span>
+            <input type="search" placeholder="Title, set, issue, tag" aria-label="Title search" />
+          </label>
+          <div class="sheet">
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th data-sort-col="title" aria-sort="none">Title</th>
+                  <th data-sort-col="aisle" aria-sort="none">Aisle</th>
+                  <th>Set / issue</th>
+                  <th>Condition</th>
+                  <th>Bin</th>
+                  <th data-sort-col="value" aria-sort="descending">Value</th>
+                </tr>
+              </thead>
+              <tbody data-sort-list>
+                <tr data-item data-cat="mtg" data-title="black lotus" data-value="12000" data-recent="20"><td><span class="mini-spine" data-cat="mtg"></span></td><td><a href="05-rental-case.html?id=lotus">Black Lotus</a><small>Unlimited</small></td><td>Magic</td><td>232</td><td>Played</td><td>Safe · Power</td><td class="num-cell">$12,000</td></tr>
+                <tr data-item data-cat="comic" data-title="amazing spider-man #300" data-value="850" data-recent="8"><td><span class="mini-spine" data-cat="comic"></span></td><td><a href="06-sleeve-ticket.html">Amazing Spider-Man #300</a><small>Marvel</small></td><td>Comics</td><td>300</td><td>Very Fine</td><td>Long box · Marvel</td><td class="num-cell">$850</td></tr>
+                <tr data-item data-cat="game" data-title="chrono trigger" data-value="420" data-recent="6"><td><span class="mini-spine" data-cat="game"></span></td><td><a href="05-rental-case.html?id=chrono">Chrono Trigger</a><small>SNES</small></td><td>Games</td><td>1995</td><td>Complete</td><td>Shelf · Games</td><td class="num-cell">$420</td></tr>
+                <tr data-item data-cat="figure" data-title="hot toys batman" data-value="310" data-recent="11"><td><span class="mini-spine" data-cat="figure"></span></td><td><a href="05-rental-case.html?id=hot-toys">Hot Toys Batman</a><small>1/6</small></td><td>Figures</td><td>DX</td><td>Mint</td><td>Detolf 1</td><td class="num-cell">$310</td></tr>
+                <tr data-item data-cat="game" data-title="the legend of zelda" data-value="280" data-recent="14"><td><span class="mini-spine" data-cat="game"></span></td><td><a href="05-rental-case.html?id=zelda">The Legend of Zelda</a><small>NES</small></td><td>Games</td><td>Gold cart</td><td>Complete</td><td>Shelf · Games</td><td class="num-cell">$280</td></tr>
+                <tr data-item data-cat="comic" data-title="saga #1" data-value="220" data-recent="3"><td><span class="mini-spine" data-cat="comic"></span></td><td><a href="05-rental-case.html?id=saga-1">Saga #1</a><small>Image</small></td><td>Comics</td><td>1</td><td>Near Mint</td><td>Long box · Image</td><td class="num-cell">$220</td></tr>
+                <tr data-item data-cat="memo" data-title="blade runner poster" data-value="180" data-recent="15"><td><span class="mini-spine" data-cat="memo"></span></td><td><a href="05-rental-case.html?id=blade">Blade Runner poster</a><small>One sheet</small></td><td>Memorabilia</td><td>1982</td><td>Very Fine</td><td>Flat file</td><td class="num-cell">$180</td></tr>
+                <tr data-item data-cat="comic" data-title="batman: the killing joke" data-value="140" data-recent="12"><td><span class="mini-spine" data-cat="comic"></span></td><td><a href="05-rental-case.html?id=joke">Batman: The Killing Joke</a><small>DC</small></td><td>Comics</td><td>1988</td><td>Very Fine</td><td>Long box · DC</td><td class="num-cell">$140</td></tr>
+                <tr data-item data-cat="comic" data-title="sandman #1" data-value="120" data-recent="16"><td><span class="mini-spine" data-cat="comic"></span></td><td><a href="05-rental-case.html?id=sandman">Sandman #1</a><small>DC</small></td><td>Comics</td><td>1</td><td>Near Mint</td><td>Long box · DC</td><td class="num-cell">$120</td></tr>
+                <tr data-item data-cat="comic" data-title="invincible #1" data-value="90" data-recent="17"><td><span class="mini-spine" data-cat="comic"></span></td><td><a href="05-rental-case.html?id=invincible">Invincible #1</a><small>Image</small></td><td>Comics</td><td>1</td><td>Near Mint</td><td>Long box · Image</td><td class="num-cell">$90</td></tr>
+                <tr data-item data-cat="mtg" data-title="the one ring" data-value="89" data-recent="2"><td><span class="mini-spine" data-cat="mtg"></span></td><td><a href="05-rental-case.html?id=one-ring">The One Ring</a><small>LTR</small></td><td>Magic</td><td>001</td><td>Near Mint</td><td>Binder · Mythic</td><td class="num-cell">$89.00</td></tr>
+                <tr data-item data-cat="pi" data-title="raspberry pi 5 8gb" data-value="80" data-recent="4"><td><span class="mini-spine" data-cat="pi"></span></td><td><a href="05-rental-case.html?id=pi-5">Raspberry Pi 5 8GB</a><small>Board</small></td><td>Pi &amp; gear</td><td>8GB</td><td>Mint</td><td>Pi rack</td><td class="num-cell">$80</td></tr>
+                <tr data-item data-cat="funko" data-title="vegeta metallic" data-value="64" data-recent="5"><td><span class="mini-spine" data-cat="funko"></span></td><td><a href="05-rental-case.html?id=vegeta">Vegeta Metallic</a><small>Pop 10</small></td><td>Funko</td><td>10</td><td>Mint</td><td>POP wall B</td><td class="num-cell">$64</td></tr>
+                <tr data-item data-cat="manga" data-title="berserk vol. 1" data-value="55" data-recent="9"><td><span class="mini-spine" data-cat="manga"></span></td><td><a href="05-rental-case.html?id=berserk">Berserk Vol. 1</a><small>Dark Horse</small></td><td>Manga</td><td>01</td><td>Near Mint</td><td>Shelf · Manga</td><td class="num-cell">$55</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="../js/shell.js"></script>
+  <script src="../js/catalog.js"></script>
+  <script src="../js/browser.js"></script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+/* Chimp.OS Collection — theme tokens
+   One file owns color, type, radius, shadow, and glow.
+
+   Chimp.OS styles.css already uses these names:
+   --bg, --panel, --line, --accent, --muted, --ink, --soft
+   Dialogs in that app are background:var(--bg); color:var(--ink);
+   border:1px solid var(--line); border-radius:12px.
+   --radius is 12px so that contract stays intact.
+
+   Extra tokens (--neon, --gold, --paper, category colors, glows)
+   are local to Collection. When a real Chimp.OS theme is dropped in,
+   map it onto the seven names above and re-point the extras.
+
+   Video Store Classic lives on :root and [data-theme="classic"].
+   Chimp.OS Cyberpunk lives on [data-theme="cyber"].
+   Nested elements can set data-theme to preview one look inside the other.
+
+   Cyberpunk hex values are PLACEHOLDERS sampled from the Chimp.OS
+   brand art: near-black ground, gold spotlight, neon purple and neon
+   green holo screens. Swap the whole cyber block when exact values land.
+*/
+
+@font-face {
+  font-family: "Bebas Neue";
+  src: url("../fonts/BebasNeue-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Oswald";
+  src: url("../fonts/Oswald-Variable.ttf") format("truetype");
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Barlow";
+  src: url("../fonts/Barlow-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Barlow";
+  src: url("../fonts/Barlow-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Barlow";
+  src: url("../fonts/Barlow-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("../fonts/IBMPlexMono-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("../fonts/IBMPlexMono-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root,
+[data-theme="classic"] {
+  color-scheme: dark;
+
+  /* Video Store Classic — royal blue and ticket yellow */
+  --bg: #0a3484;
+  --panel: #12429e;
+  --soft: #1c56c4;
+  --line: #2f62c9;
+  --accent: #ffd84a;
+  --muted: #c9d6f5;
+  --ink: #fff8ee;
+  --neon: #9ad7ff;
+  --gold: #ffd84a;
+  --ticket: #ffd84a;
+  --on-accent: #1a1403;
+  --on-neon: #042033;
+  --on-gold: #1a1403;
+  --paper: #fff4d4;
+  --paper-ink: #24180b;
+  --good: #b8f7c8;
+  --danger: #ffb0a8;
+
+  --cat-comic: #ffd84a;
+  --cat-mtg: #8fd4ff;
+  --cat-funko: #ff8b6a;
+  --cat-game: #b6f09a;
+  --cat-manga: #f0a6ff;
+  --cat-figure: #ffd0a6;
+  --cat-memo: #f7f3ea;
+  --cat-pi: #d5def2;
+
+  --radius: 12px;
+  --radius-pill: 999px;
+  --space: 1;
+  --font-display: "Bebas Neue", "Arial Narrow", Impact, sans-serif;
+  --font-ui: "Oswald", "Arial Narrow", sans-serif;
+  --font-body: "Barlow", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --shadow: 0 16px 40px color-mix(in srgb, black 42%, transparent);
+  --glow: 0 0 20px color-mix(in srgb, var(--accent) 55%, transparent);
+  --glow-neon: 0 0 20px color-mix(in srgb, var(--neon) 50%, transparent);
+  --glow-gold: 0 0 20px color-mix(in srgb, var(--gold) 48%, transparent);
+}
+
+[data-theme="cyber"] {
+  color-scheme: dark;
+
+  /* PLACEHOLDER — Chimp.OS Cyberpunk, sampled from the brand art.
+     Near-black, neon purple, neon green, spotlight gold.
+     Replace with the exact styles.css hex when it is available. */
+  --bg: #07060d;
+  --panel: #12101c;
+  --soft: #1c1830;
+  --line: #3a3158;
+  --accent: #e437ff;
+  --muted: #a89bb8;
+  --ink: #f6f1e7;
+  --neon: #3dff9a;
+  --gold: #f0b429;
+  --ticket: #f0b429;
+  --on-accent: #160616;
+  --on-neon: #04150c;
+  --on-gold: #1a1203;
+  --paper: #101a14;
+  --paper-ink: #d2ffe4;
+  --good: #3dff9a;
+  --danger: #ff5d7a;
+
+  --cat-comic: #e437ff;
+  --cat-mtg: #3dff9a;
+  --cat-funko: #f0b429;
+  --cat-game: #5ce1ff;
+  --cat-manga: #ff4d8d;
+  --cat-figure: #ff8a3d;
+  --cat-memo: #d9c8ff;
+  --cat-pi: #9aa8ff;
+
+  --radius: 12px;
+  --shadow: 0 18px 48px color-mix(in srgb, black 55%, transparent);
+  --glow: 0 0 22px color-mix(in srgb, var(--accent) 60%, transparent);
+  --glow-neon: 0 0 22px color-mix(in srgb, var(--neon) 50%, transparent);
+  --glow-gold: 0 0 22px color-mix(in srgb, var(--gold) 48%, transparent);
+}

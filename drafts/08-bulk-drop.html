@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="classic">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bulk drop — Chimp.OS Collection</title>
+  <script src="../js/boot.js"></script>
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <style>
+    .bulk {
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 12px;
+      padding: 14px 16px 16px;
+    }
+    .banner {
+      display: grid;
+      grid-template-columns: 1.4fr repeat(3, 1fr);
+      gap: 10px;
+    }
+    .banner article {
+      padding: 12px 14px;
+    }
+    .banner .wide h2 {
+      margin: 4px 0 0;
+      font-family: var(--font-display);
+      font-size: 36px;
+      line-height: 0.9;
+      font-weight: 400;
+    }
+    .banner strong.num { font-size: 42px; display: block; }
+    .banner .gold { color: var(--gold); }
+    .banner .neon { color: var(--neon); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th {
+      text-align: left;
+      font-family: var(--font-ui);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    td {
+      padding: 8px 10px;
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+      vertical-align: middle;
+    }
+    tr.is-hold td { background: color-mix(in srgb, var(--gold) 10%, transparent); }
+    .thumb {
+      width: 46px;
+      height: 46px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--bg);
+    }
+    .meter {
+      height: 8px;
+      width: 120px;
+      border-radius: var(--radius-pill);
+      background: var(--bg);
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+    .meter span { display: block; height: 100%; background: var(--neon); }
+    .meter.mid span { background: var(--gold); }
+    .meter.low span { background: var(--accent); }
+    .sheet { min-height: 0; overflow: auto; padding: 4px 8px 8px; }
+    .check {
+      width: 16px; height: 16px; border-radius: 3px;
+      border: 2px solid var(--accent);
+      background: var(--accent);
+      display: inline-block;
+    }
+    .check.off { background: transparent; }
+  </style>
+</head>
+<body data-screen="Bulk drop">
+  <div class="app fit">
+    <header id="topbar" class="topbar"></header>
+    <main class="stage">
+      <div class="bulk">
+        <section class="banner">
+          <article class="panel wide">
+            <p class="kicker">Bin drop</p>
+            <h2>~/Pictures/Rewind/Saturday</h2>
+            <p class="note">240 files from the camera roll. High reads can file themselves. The rest wait at the counter.</p>
+          </article>
+          <article class="panel"><span class="kicker">Files</span><strong class="num">240</strong></article>
+          <article class="panel"><span class="kicker">Ready to file</span><strong class="num neon">190</strong></article>
+          <article class="panel"><span class="kicker">Need a label</span><strong class="num gold">50</strong></article>
+        </section>
+        <div class="toolbar">
+          <button type="button" class="btn solid">File the 190</button>
+          <button type="button" class="btn ghost">Hold the rest</button>
+          <a class="btn ghost" href="07-returns-counter.html">Review at the counter</a>
+          <span class="grow">Sorted by confidence</span>
+        </div>
+        <section class="panel sheet">
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Photo</th>
+                <th>Guess</th>
+                <th>Aisle</th>
+                <th>Bin</th>
+                <th>Read</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="check"></span></td>
+                <td><div class="thumb"><div class="art" data-cover="bolt"></div></div></td>
+                <td><strong>Lightning Bolt</strong><br /><span class="muted">2X2 · 117</span></td>
+                <td>Magic</td>
+                <td>Binder · Red</td>
+                <td><div class="meter"><span style="width:99%"></span></div></td>
+                <td>$1.80</td>
+              </tr>
+              <tr>
+                <td><span class="check"></span></td>
+                <td><div class="thumb"><div class="art" data-cover="grogu"></div></div></td>
+                <td><strong>Grogu</strong><br /><span class="muted">Pop · 465</span></td>
+                <td>Funko</td>
+                <td>POP wall A</td>
+                <td><div class="meter"><span style="width:97%"></span></div></td>
+                <td>$18</td>
+              </tr>
+              <tr>
+                <td><span class="check"></span></td>
+                <td><div class="thumb"><div class="art" data-cover="pi-5"></div></div></td>
+                <td><strong>Raspberry Pi 5 8GB</strong><br /><span class="muted">Board in box</span></td>
+                <td>Pi &amp; gear</td>
+                <td>Pi rack</td>
+                <td><div class="meter"><span style="width:96%"></span></div></td>
+                <td>$80</td>
+              </tr>
+              <tr>
+                <td><span class="check"></span></td>
+                <td><div class="thumb"><div class="art" data-cover="xmen"></div></div></td>
+                <td><strong>X-Men #1</strong><br /><span class="muted">Gatefold · 1991</span></td>
+                <td>Comics</td>
+                <td>Long box · Marvel</td>
+                <td><div class="meter"><span style="width:96%"></span></div></td>
+                <td>$8</td>
+              </tr>
+              <tr>
+                <td><span class="check"></span></td>
+                <td><div class="thumb"><div class="art" data-cover="sol-ring"></div></div></td>
+                <td><strong>Sol Ring</strong><br /><span class="muted">CMM · foil</span></td>
+                <td>Magic</td>
+                <td>Binder · Commander</td>
+                <td><div class="meter"><span style="width:95%"></span></div></td>
+                <td>$7.50</td>
+              </tr>
+              <tr>
+                <td><span class="check"></span></td>
+                <td><div class="thumb"><div class="art" data-cover="one-ring"></div></div></td>
+                <td><strong>The One Ring</strong><br /><span class="muted">LTR · 001 · nonfoil</span></td>
+                <td>Magic</td>
+                <td>Binder · Mythic</td>
+                <td><div class="meter"><span style="width:94%"></span></div></td>
+                <td>$89.00</td>
+              </tr>
+              <tr class="is-hold">
+                <td><span class="check off"></span></td>
+                <td><div class="thumb"><div class="art" data-cover="blade"></div></div></td>
+                <td><strong>Poster, unread</strong><br /><span class="muted">Glare on the title</span></td>
+                <td>Memorabilia</td>
+                <td>Flat file</td>
+                <td><div class="meter low"><span style="width:42%"></span></div></td>
+                <td>—</td>
+              </tr>
+              <tr class="is-hold">
+                <td><span class="check off"></span></td>
+                <td><div class="thumb"><div class="art" data-cover="hot-toys"></div></div></td>
+                <td><strong>Figure in shipper</strong><br /><span class="muted">Box edge only</span></td>
+                <td>Figures</td>
+                <td>Detolf 1</td>
+                <td><div class="meter mid"><span style="width:61%"></span></div></td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="../js/shell.js"></script>
+  <script src="../js/catalog.js"></script>
+</body>
+</html>

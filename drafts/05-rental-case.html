@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="classic">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rental case — Chimp.OS Collection</title>
+  <script src="../js/boot.js"></script>
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <style>
+    .detail {
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 14px;
+      padding: 14px 16px 16px;
+    }
+    .case-col { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto 1fr auto; gap: 12px; }
+    .hero {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 16px;
+      padding: 14px;
+    }
+    .hero .vhs { width: 100%; height: 100%; }
+    .hero h2 {
+      margin: 8px 0 4px;
+      font-family: var(--font-display);
+      font-size: 64px;
+      line-height: 0.84;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+    }
+    .lede { margin: 0 0 12px; color: var(--muted); max-width: 46ch; }
+    .slip-col { min-height: 0; display: flex; flex-direction: column; gap: 12px; }
+    .receipt { padding: 14px 14px 12px; display: flex; flex-direction: column; gap: 4px; }
+    .receipt h3 { margin: 4px 0; font-family: var(--font-display); font-size: 32px; letter-spacing: 0.04em; font-weight: 400; line-height: 0.9; }
+    .slip-row { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; }
+    .slip-row span { color: color-mix(in srgb, var(--paper-ink) 68%, transparent); }
+    .dialog { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .dialog h3 { margin: 0; font-family: var(--font-display); font-size: 26px; letter-spacing: 0.06em; font-weight: 400; }
+    .actions { display: flex; gap: 8px; }
+    .stamp-row { display: flex; justify-content: flex-end; }
+  </style>
+</head>
+<body data-screen="Rental case">
+  <div class="app fit">
+    <header id="topbar" class="topbar"></header>
+    <main class="stage">
+      <div class="detail" data-detail="one-ring">
+        <section class="case-col">
+          <div class="toolbar">
+            <h2 class="aisle-sign alt"><span data-bind="aisle">Magic</span></h2>
+            <span class="grow" data-bind="location">Binder · Mythic</span>
+          </div>
+          <article class="panel hero">
+            <div class="vhs" data-cat-bind data-cat="mtg">
+              <div class="vhs-spine"><span data-bind="spine">One Ring</span></div>
+              <div class="vhs-face">
+                <div class="vhs-window"><div class="art" data-cover="one-ring"></div></div>
+                <div class="vhs-label"><strong data-bind="title">The One Ring</strong><span data-bind="meta">LTR · 001</span></div>
+              </div>
+            </div>
+            <div>
+              <p class="kicker">Open case</p>
+              <h2 data-bind="title">The One Ring</h2>
+              <p class="lede" data-bind="note">Showcase frame. Price guide matched the nonfoil printing.</p>
+              <div class="field-grid">
+                <div class="field"><span>Series</span><b data-bind="series">Tales of Middle-earth</b></div>
+                <div class="field"><span>Number</span><b data-bind="meta">LTR · 001</b></div>
+                <div class="field"><span>Finish</span><b data-bind="finish">Nonfoil</b></div>
+                <div class="field"><span>Year</span><b data-bind="year">2023</b></div>
+                <div class="field"><span>Condition</span><b data-bind="condition">Near Mint</b></div>
+                <div class="field"><span>Franchise</span><b data-bind="franchise">Middle-earth</b></div>
+                <div class="field"><span>Tags</span><b data-bind="tagsLabel">Legendary · Mythic</b></div>
+                <div class="field"><span>Est. value</span><b data-bind="valueLabel">$89.00</b></div>
+              </div>
+            </div>
+          </article>
+          <p class="note">Same record the returns desk filed. Correct it in the dialog, then put it back on the shelf.</p>
+        </section>
+        <aside class="slip-col">
+          <article class="receipt">
+            <div class="receipt-head"><span>REWIND</span><span>MATCH SLIP</span></div>
+            <hr class="rule" />
+            <div class="stamp-row"><span class="stamp">MATCH</span></div>
+            <h3 data-bind="title">The One Ring</h3>
+            <div class="slip-row"><span>Aisle</span><b data-bind="aisle">Magic</b></div>
+            <div class="slip-row"><span>Set / issue</span><b data-bind="meta">LTR · 001</b></div>
+            <div class="slip-row"><span>Finish</span><b data-bind="finish">Nonfoil</b></div>
+            <div class="slip-row"><span>Guide</span><b data-bind="valueLabel">$89.00</b></div>
+            <div class="slip-row"><span>Source</span><b data-bind="guide">Price guide · Scryfall</b></div>
+            <div class="slip-row"><span>Read</span><b data-bind="confidence">94%</b></div>
+            <hr class="rule" />
+            <div class="slip-row"><span>Bin</span><b data-bind="location">Binder · Mythic</b></div>
+            <p class="note" style="color:inherit; margin-top:8px">Be kind, rewind</p>
+          </article>
+          <form class="dialog" action="#" onsubmit="return false">
+            <h3>Correct the label</h3>
+            <label class="dlg-field"><span>Title</span><b data-bind="title">The One Ring</b></label>
+            <div class="field-grid">
+              <label class="dlg-field"><span>Aisle</span><b data-bind="aisle">Magic</b></label>
+              <label class="dlg-field"><span>Condition</span><b data-bind="condition">Near Mint</b></label>
+            </div>
+            <label class="dlg-field"><span>Bin</span><b data-bind="location">Binder · Mythic</b></label>
+            <div class="actions">
+              <button type="button" class="btn solid">File it</button>
+              <button type="button" class="btn ghost">Hold</button>
+            </div>
+          </form>
+        </aside>
+      </div>
+    </main>
+  </div>
+  <script src="../js/shell.js"></script>
+  <script src="../js/catalog.js"></script>
+</body>
+</html>

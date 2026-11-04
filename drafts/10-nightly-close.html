@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="classic">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nightly close — Chimp.OS Collection</title>
+  <script src="../js/boot.js"></script>
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <style>
+    .close {
+      height: 100%;
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 14px;
+      padding: 14px 16px 16px;
+    }
+    .receipt {
+      padding: 16px 16px 22px;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .receipt h2 {
+      margin: 8px 0;
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: 34px;
+      letter-spacing: 0.12em;
+      font-weight: 400;
+    }
+    .center { text-align: center; margin: 0; letter-spacing: 0.08em; }
+    .slip-row { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+    .slip-row.total { font-size: 16px; }
+    .right { min-height: 0; display: flex; flex-direction: column; gap: 12px; }
+    .top-shelf { padding: 12px 14px; }
+    .top-shelf h3, .bars h3, .returns h3 {
+      margin: 0 0 8px;
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+    }
+    .top-row { display: flex; gap: 10px; }
+    .top-row .vhs { width: 150px; height: 176px; }
+    .stock { margin: 4px 0; }
+    .bars, .returns { padding: 12px 14px; min-height: 0; }
+    .bars h3, .returns h3 {
+      margin: 0 0 8px;
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+    }
+    .stock { display: grid; grid-template-columns: 110px 1fr 72px; gap: 8px; align-items: center; margin: 6px 0; }
+    .track { height: 14px; border-radius: var(--radius-pill); background: var(--bg); border: 1px solid var(--line); overflow: hidden; }
+    .track span { display: block; height: 100%; background: var(--cat, var(--accent)); }
+    .stock b { text-align: right; font-family: var(--font-ui); font-size: 13px; }
+    .return-row { display: grid; grid-template-columns: 36px 1fr auto; gap: 8px; align-items: center; padding: 4px 0; border-bottom: 1px solid var(--line); }
+    .dot { width: 36px; height: 28px; border-radius: 4px; background: var(--cat); }
+  </style>
+</head>
+<body data-screen="Nightly close">
+  <div class="app fit">
+    <header id="topbar" class="topbar"></header>
+    <main class="stage">
+      <div class="close">
+        <article class="receipt torn">
+          <p class="center">REWIND · THE TAPE ROOM</p>
+          <h2>NIGHTLY CLOSE</h2>
+          <p class="center">SAT 04 NOV 2026 · MEMBER RW-33003</p>
+          <hr class="rule" />
+          <div class="slip-row"><span>COMICS</span><b>10,482</b></div>
+          <div class="slip-row"><span>MAGIC</span><b>19,847</b></div>
+          <div class="slip-row"><span>FUNKO</span><b>1,306</b></div>
+          <div class="slip-row"><span>GAMES</span><b>640</b></div>
+          <div class="slip-row"><span>MANGA</span><b>410</b></div>
+          <div class="slip-row"><span>FIGURES</span><b>188</b></div>
+          <div class="slip-row"><span>MEMORABILIA</span><b>96</b></div>
+          <div class="slip-row"><span>PI &amp; GEAR</span><b>34</b></div>
+          <hr class="rule" />
+          <div class="slip-row total"><span>TITLES</span><b>33,003</b></div>
+          <div class="slip-row total"><span>EST. VALUE</span><b>$196,850</b></div>
+          <hr class="rule" />
+          <p class="center">TOP SHELF</p>
+          <div class="slip-row"><span>BLACK LOTUS</span><b>$12,000</b></div>
+          <div class="slip-row"><span>ASM #300</span><b>$850</b></div>
+          <div class="slip-row"><span>CHRONO TRIGGER</span><b>$420</b></div>
+          <hr class="rule" />
+          <p class="center">BE KIND, REWIND</p>
+        </article>
+        <div class="right">
+          <section class="panel bars">
+            <h3>Aisle stock</h3>
+            <div class="stock" data-cat="mtg"><span>Magic</span><div class="track"><span style="width:100%"></span></div><b>19,847</b></div>
+            <div class="stock" data-cat="comic"><span>Comics</span><div class="track"><span style="width:53%"></span></div><b>10,482</b></div>
+            <div class="stock" data-cat="funko"><span>Funko</span><div class="track"><span style="width:18%"></span></div><b>1,306</b></div>
+            <div class="stock" data-cat="game"><span>Games</span><div class="track"><span style="width:12%"></span></div><b>640</b></div>
+            <div class="stock" data-cat="manga"><span>Manga</span><div class="track"><span style="width:10%"></span></div><b>410</b></div>
+            <div class="stock" data-cat="figure"><span>Figures</span><div class="track"><span style="width:8%"></span></div><b>188</b></div>
+            <div class="stock" data-cat="memo"><span>Memo</span><div class="track"><span style="width:6%"></span></div><b>96</b></div>
+            <div class="stock" data-cat="pi"><span>Pi &amp; gear</span><div class="track"><span style="width:4%"></span></div><b>34</b></div>
+          </section>
+          <section class="panel top-shelf">
+            <h3>Top shelf</h3>
+            <div class="top-row">
+              <a class="vhs" data-cat="mtg" href="05-rental-case.html?id=lotus"><div class="vhs-spine"><span>Lotus</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="lotus"></div></div><div class="vhs-label"><strong>Black Lotus</strong><span>$12,000</span></div></div></a>
+              <a class="vhs" data-cat="comic" href="06-sleeve-ticket.html"><div class="vhs-spine"><span>ASM 300</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="asm-300"></div></div><div class="vhs-label"><strong>Amazing Spider-Man #300</strong><span>$850</span></div></div></a>
+              <a class="vhs" data-cat="game" href="05-rental-case.html?id=chrono"><div class="vhs-spine"><span>Chrono</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="chrono"></div></div><div class="vhs-label"><strong>Chrono Trigger</strong><span>$420</span></div></div></a>
+            </div>
+          </section>
+          <section class="panel returns">
+            <h3>Tonight's returns</h3>
+            <div class="return-row" data-cat="funko"><span class="dot"></span><span>Grogu filed to POP wall A</span><b>$18</b></div>
+            <div class="return-row" data-cat="mtg"><span class="dot"></span><span>The One Ring matched LTR 001</span><b>$89</b></div>
+            <div class="return-row" data-cat="pi"><span class="dot"></span><span>Pi 5 landed on the rack</span><b>$80</b></div>
+            <div class="return-row" data-cat="comic"><span class="dot"></span><span>Saga #1 held for a cleaner photo</span><b>—</b></div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="../js/shell.js"></script>
+  <script src="../js/catalog.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="classic">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Store lobby — Chimp.OS Collection</title>
+  <script src="../js/boot.js"></script>
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <style>
+    .lobby {
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      grid-template-rows: minmax(0, 1fr) 220px;
+      gap: 12px;
+      padding: 14px 16px 12px;
+    }
+    .lobby > * { min-height: 0; }
+    .marquee {
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      padding: 16px;
+      background:
+        radial-gradient(circle, var(--gold) 3px, transparent 4.2px) 0 0 / 20px 20px,
+        var(--panel);
+    }
+    .marquee-inner {
+      height: 100%;
+      border-radius: calc(var(--radius) - 4px);
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 6px;
+      box-shadow: inset 0 0 0 2px var(--line);
+    }
+    .marquee-inner .now {
+      font-family: var(--font-ui);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-size: 13px;
+    }
+    .marquee-inner h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 132px;
+      line-height: 0.8;
+      letter-spacing: 0.04em;
+      font-weight: 400;
+      color: var(--accent);
+      text-shadow: var(--glow);
+    }
+    .marquee-inner p { margin: 0; color: var(--muted); max-width: 36ch; }
+    .doors {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+      gap: 10px;
+      min-height: 0;
+    }
+    .door {
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--ink);
+      text-align: left;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: inset 0 -6px 0 var(--cat, var(--accent));
+    }
+    .door span { font-family: var(--font-ui); letter-spacing: 0.14em; text-transform: uppercase; font-size: 11px; color: var(--muted); }
+    .door strong { font-family: var(--font-display); font-size: 36px; font-weight: 400; letter-spacing: 0.04em; line-height: 0.9; }
+    .door em { font-style: normal; font-family: var(--font-display); font-size: 22px; color: var(--gold); }
+    .picks { grid-column: 1 / -1; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+    .picks .vhs { height: 158px; width: auto; flex: 1; }
+    .picks .shelf { padding-bottom: 10px; }
+    .picks .shelf::after { box-shadow: none; }
+    .picks .vhs-label { padding: 4px 6px 5px; }
+    .picks .vhs-window { margin: 5px 5px 0; }
+  </style>
+</head>
+<body data-screen="Store lobby">
+  <div class="app fit">
+    <header id="topbar" class="topbar"></header>
+    <main class="stage">
+      <div class="lobby">
+        <section class="marquee">
+          <div class="marquee-inner">
+            <span class="now">The tape room</span>
+            <h2>Rewind</h2>
+            <p>Pick an aisle, or take a new release off the low shelf.</p>
+            <span class="aisle-sign"><span>Be kind, rewind</span></span>
+          </div>
+        </section>
+        <div class="doors">
+          <button type="button" class="door" data-cat="comic"><span>Aisle 1</span><strong>Comics</strong><em>10,482</em></button>
+          <button type="button" class="door" data-cat="mtg"><span>Aisle 2</span><strong>Magic</strong><em>19,847</em></button>
+          <button type="button" class="door" data-cat="funko"><span>Aisle 3</span><strong>Funko</strong><em>1,306</em></button>
+          <button type="button" class="door" data-cat="game"><span>Aisle 4</span><strong>Games</strong><em>640</em></button>
+          <button type="button" class="door" data-cat="manga"><span>Aisle 5</span><strong>Manga</strong><em>410</em></button>
+          <button type="button" class="door" data-cat="figure"><span>Aisle 6</span><strong>Figures</strong><em>188</em></button>
+        </div>
+        <section class="picks">
+          <div class="toolbar">
+            <h2 class="aisle-sign alt"><span>New releases</span></h2>
+            <span class="grow">Just filed</span>
+          </div>
+          <div class="shelf">
+            <div class="shelf-row">
+              <a class="vhs" data-cat="funko" href="05-rental-case.html?id=grogu"><div class="vhs-spine"><span>Grogu</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="grogu"></div></div><div class="vhs-label"><strong>Grogu</strong><span>$18</span></div></div></a>
+              <a class="vhs" data-cat="mtg" href="05-rental-case.html?id=one-ring"><div class="vhs-spine"><span>One Ring</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="one-ring"></div></div><div class="vhs-label"><strong>The One Ring</strong><span>$89</span></div></div></a>
+              <a class="vhs" data-cat="comic" href="06-sleeve-ticket.html"><div class="vhs-spine"><span>Saga 1</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="saga-1"></div></div><div class="vhs-label"><strong>Saga #1</strong><span>$220</span></div></div></a>
+              <a class="vhs" data-cat="pi" href="05-rental-case.html?id=pi-5"><div class="vhs-spine"><span>Pi 5</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="pi-5"></div></div><div class="vhs-label"><strong>Raspberry Pi 5</strong><span>$80</span></div></div></a>
+              <a class="vhs" data-cat="game" href="05-rental-case.html?id=chrono"><div class="vhs-spine"><span>Chrono</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="chrono"></div></div><div class="vhs-label"><strong>Chrono Trigger</strong><span>$420</span></div></div></a>
+              <a class="vhs" data-cat="funko" href="05-rental-case.html?id=vegeta"><div class="vhs-spine"><span>Vegeta</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="vegeta"></div></div><div class="vhs-label"><strong>Vegeta Metallic</strong><span>$64</span></div></div></a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="../js/shell.js"></script>
+  <script src="../js/catalog.js"></script>
+</body>
+</html>
