@@ -1,66 +1,48 @@
-# Chimp.OS Collection — design drafts
+# Colossal Vault
 
-Desktop layout drafts for a **Collection** section inside Chimp.OS, the Electron app with a PHP backend. The section is an original 1990s video-store homage called **Rewind** (the tape room). It does not use the Blockbuster name or logo.
+Design drafts for the **Collection** section inside Chimp.OS. The section is a video-store counter inside the desktop app: clamshells, aisle signs, a marquee, title cards, and match slips. The name is a placeholder for the Colossal Chimp Studios brand.
 
-These pages are static HTML. They are the designs to react to before anyone builds the section into Electron. The standalone phone app was not continued, and no collection backend was started.
+The working name lives in one line:
+
+```js
+// js/brand.js
+window.PRODUCT_NAME = "Colossal Vault";
+```
+
+Change that string and every screen that uses `data-brand` picks it up.
 
 ## Look through them
-
-From this folder:
 
 ```bash
 python3 -m http.server 43123 --bind 0.0.0.0
 ```
 
-Open [http://127.0.0.1:43123/](http://127.0.0.1:43123/). The index links all twelve drafts.
+Open [http://127.0.0.1:43123/](http://127.0.0.1:43123/).
 
-Every screen has a **Classic / Cyberpunk** switch in the top bar. The choice is stored in `localStorage` under `rewind-theme` and follows you from draft to draft. Add `?theme=classic` or `?theme=cyber` to force one.
+The top bar switches **Classic** and **Chimp.OS**. The choice is stored as `vault-theme`. Add `?theme=classic` or `?theme=chimp` to force one.
 
-| Draft | Screen | Idea |
-| --- | --- | --- |
-| 01 Shelf wall | Browser | Face-out clamshells, aisle filters, sort |
-| 02 Spine wall | Browser | Dense spines for a huge Magic aisle |
-| 03 Marquee grid | Browser | Poster wall and ticket-stub filters |
-| 04 Store map | Browser | Floor plan, then the bay you picked |
-| 05 Rental case | Detail | Open clamshell, match slip, edit dialog |
-| 06 Sleeve & ticket | Detail | Torn title card beside the photo |
-| 07 Returns counter | Queue | One photo on the glass, confirm or correct |
-| 08 Bulk drop | Import | A folder of photos, file the confident rows |
-| 09 Membership | Stats | Member card and trophy case |
-| 10 Nightly close | Stats | Register receipt and aisle stock |
-| 11 Lookup terminal | Browser | Search and sort the whole vault |
-| 12 Store lobby | Home | Marquee, aisle doors, new releases |
+| Screen | What it keeps from the first round |
+| --- | --- |
+| [Home](home.html) | Store lobby. Doors, marquee, new-release shelf, plus counts, value, queue, and the top mover. |
+| [Wall](browse.html) | Shelf, spines, poster grid, and the aisle map, with sort and filters. |
+| [Case](item.html) | Title card, open clamshell, match slip, and the correct-the-label dialog. |
+| [Queue](queue.html) | Folder drop totals, the returns counter, and a lookup of titles already filed. |
+| [Close](stats.html) | Membership card, aisle trophies, nightly receipt, stock, and movers. |
 
-Phone photos into the desktop app are compared in [docs/phone-photos.md](docs/phone-photos.md).
+Counts and prices are placeholders (comics about 10,482, Magic about 19,847, other trading cards 2,150, Funko 1,306).
+
+The first twelve layouts are in [archive/](archive/12-store-lobby.html), still on the Rewind styling they were reviewed in.
 
 ## Themes
 
-All color, type, radius, shadow, and glow live in [`css/tokens.css`](css/tokens.css). Components only use variables.
+Color, type, radius, and glow live in [`css/tokens.css`](css/tokens.css). Components use the Chimp.OS names `--bg`, `--panel`, `--line`, `--accent`, `--muted`, `--ink`, and `--soft`.
 
-Chimp.OS `styles.css` already defines:
+**Chimp.OS** (`data-theme="chimp"`) is sampled from the Files dashboard: slate `#2c333e`, charcoal panels, hot pink `#f830a0`, magenta, cyan `#10a8e8`, teal `#308898`, muted `#7a7f91`. Type is IBM Plex Mono. Radius is 6px. Aisle signs, cases, tickets, and the marquee stay, drawn in those colors.
 
-- `--bg`
-- `--panel`
-- `--line`
-- `--accent`
-- `--muted`
-- `--ink`
-- `--soft`
+**Video Store Classic** stays royal blue and ticket yellow, with the heavier display type.
 
-Dialogs there are `background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 12px`. `--radius` is `12px`. The correct-the-label panel on the rental case uses the `.dialog` class with that contract.
+`prefers-reduced-motion` still cuts the tracking-line animation.
 
-Two full themes set those names, plus extras (`--neon`, `--gold`, `--paper`, category colors, glows):
+## How this becomes the section
 
-1. **Video Store Classic** — royal blue and ticket yellow. Default.
-2. **Chimp.OS Cyberpunk** — near-black, neon purple, neon green, spotlight gold. The hex values are placeholders sampled from the Chimp.OS brand art. Replace the `[data-theme="cyber"]` block when the real `styles.css` values are in hand.
-
-`prefers-reduced-motion` cuts the tracking-line animation and the short hover transitions.
-
-## How this becomes the real section
-
-- The Electron renderer for Collection should keep using these variable names so a Chimp.OS theme switch recolors the section without a second palette.
-- Prefer the app-wide theme switcher as the source of truth. The Classic / Cyberpunk control in these drafts shows both looks; in the app it can be that same switcher, with Video Store Classic as one more Chimp.OS theme.
-- Records, photos, and price-guide checks belong in the existing PHP backend. These drafts do not include an API. Magic match slips are drawn as if a Scryfall lookup had already returned set, collector number, finish, and price.
-- The returns counter is the one-photo review screen. The bulk drop is the folder import. [docs/phone-photos.md](docs/phone-photos.md) is the capture side of that queue.
-
-Screenshots of every draft, in both themes, at 1440×900 are saved with the design review.
+The Electron renderer should keep using these variable names so the app-wide theme switch recolors Collection. Classic can be one more Chimp.OS theme. Records and photos stay in the PHP backend. Phone photos are compared in [docs/phone-photos.md](docs/phone-photos.md): bulk folder import for the camera roll, and a QR code to a local HTTPS upload page for new snaps.

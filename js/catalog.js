@@ -457,6 +457,31 @@
       recent: 13
     }),
     item({
+      id: "charizard",
+      title: "Charizard",
+      spine: "Charizard",
+      short: "CHARIZARD",
+      category: "cards",
+      aisle: "Cards",
+      series: "Base Set",
+      meta: "Base · 4/102",
+      mark: "4/102",
+      year: "1999",
+      condition: "Played",
+      location: "Binder · Vintage",
+      value: 280,
+      valueLabel: "$280",
+      franchise: "Pokémon",
+      tagsLabel: "Holo · Base",
+      note: "Unlimited holo. A placeholder for the non-Magic card aisle.",
+      finish: "Holo",
+      rarity: "Holo rare",
+      confidence: "90%",
+      guide: "Shelf estimate",
+      publisher: "Wizards of the Coast",
+      recent: 3
+    }),
+    item({
       id: "grogu",
       title: "Grogu",
       spine: "Grogu",
@@ -669,6 +694,18 @@
         '<path d="M80 98 L108 150 H52 Z" fill="var(--cat)"/>' +
         '<ellipse cx="80" cy="168" rx="46" ry="10" fill="var(--panel)" stroke="var(--line)"/>' +
         plate(short, 200, 18);
+    } else if (cat === "cards") {
+      inner =
+        '<rect width="160" height="210" fill="var(--bg)"/>' +
+        '<rect x="14" y="14" width="132" height="182" rx="8" fill="var(--panel)" stroke="var(--cat)" stroke-width="3"/>' +
+        '<rect x="26" y="28" width="108" height="70" fill="var(--soft)"/>' +
+        '<circle cx="80" cy="62" r="18" fill="var(--accent)"/>' +
+        '<text x="80" y="132" text-anchor="middle" fill="var(--ink)" font-family="Bebas Neue, Impact, sans-serif" font-size="20">' +
+        short +
+        "</text>" +
+        '<text x="80" y="168" text-anchor="middle" fill="var(--gold)" font-family="IBM Plex Mono, monospace" font-size="16">' +
+        mark +
+        "</text>";
     } else if (cat === "memo") {
       inner =
         '<rect width="160" height="210" fill="var(--bg)"/>' +

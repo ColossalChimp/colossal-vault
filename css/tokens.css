@@ -12,12 +12,13 @@
    map it onto the seven names above and re-point the extras.
 
    Video Store Classic lives on :root and [data-theme="classic"].
-   Chimp.OS Cyberpunk lives on [data-theme="cyber"].
-   Nested elements can set data-theme to preview one look inside the other.
+   Chimp.OS lives on [data-theme="chimp"] (and [data-theme="cyber"] so older
+   links still open the same palette). Nested elements can set data-theme
+   to preview one look inside the other.
 
-   Cyberpunk hex values are PLACEHOLDERS sampled from the Chimp.OS
-   brand art: near-black ground, gold spotlight, neon purple and neon
-   green holo screens. Swap the whole cyber block when exact values land.
+   Chimp.OS colors are sampled from the Files dashboard: slate ground,
+   charcoal panels, hot pink and magenta, cyan and teal. Video-store
+   parts (cases, aisle signs, tickets, the marquee) use these tokens.
 */
 
 @font-face {
@@ -101,6 +102,7 @@
 
   --cat-comic: #ffd84a;
   --cat-mtg: #8fd4ff;
+  --cat-cards: #ffb0d4;
   --cat-funko: #ff8b6a;
   --cat-game: #b6f09a;
   --cat-manga: #f0a6ff;
@@ -111,6 +113,11 @@
   --radius: 12px;
   --radius-pill: 999px;
   --space: 1;
+  --bar: 58px;
+  --sign-size: 22px;
+  --sign-skew: -8deg;
+  --tag-size: 26px;
+  --selected: color-mix(in srgb, var(--accent) 28%, var(--panel));
   --font-display: "Bebas Neue", "Arial Narrow", Impact, sans-serif;
   --font-ui: "Oswald", "Arial Narrow", sans-serif;
   --font-body: "Barlow", "Segoe UI", sans-serif;
@@ -121,42 +128,57 @@
   --glow-gold: 0 0 20px color-mix(in srgb, var(--gold) 48%, transparent);
 }
 
+[data-theme="chimp"],
 [data-theme="cyber"] {
   color-scheme: dark;
 
-  /* PLACEHOLDER — Chimp.OS Cyberpunk, sampled from the brand art.
-     Near-black, neon purple, neon green, spotlight gold.
-     Replace with the exact styles.css hex when it is available. */
-  --bg: #07060d;
-  --panel: #12101c;
-  --soft: #1c1830;
-  --line: #3a3158;
-  --accent: #e437ff;
-  --muted: #a89bb8;
-  --ink: #f6f1e7;
-  --neon: #3dff9a;
-  --gold: #f0b429;
-  --ticket: #f0b429;
-  --on-accent: #160616;
-  --on-neon: #04150c;
-  --on-gold: #1a1203;
-  --paper: #101a14;
-  --paper-ink: #d2ffe4;
-  --good: #3dff9a;
-  --danger: #ff5d7a;
+  /* Chimp.OS Files dashboard, sampled from the live UI.
+     Slate ground, charcoal panels, pink / magenta, cyan / teal.
+     Gold is only the value highlight. */
+  --bg: #2c333e;
+  --panel: #1d222c;
+  --soft: #23282c;
+  --line: #3c4553;
+  --accent: #f830a0;
+  --muted: #7a7f91;
+  --ink: #e7ebf2;
+  --neon: #10a8e8;
+  --magenta: #f058e0;
+  --teal: #308898;
+  --gold: #e6c36a;
+  --ticket: #f830a0;
+  --on-accent: #fff7fb;
+  --on-neon: #041820;
+  --on-gold: #1a1404;
+  --paper: #1a2129;
+  --paper-ink: #d7deea;
+  --good: #308898;
+  --danger: #ff6b8a;
+  --selected: #3f293a;
+  --hover: #c830a8;
+  --line-hot: #d038b0;
 
-  --cat-comic: #e437ff;
-  --cat-mtg: #3dff9a;
-  --cat-funko: #f0b429;
-  --cat-game: #5ce1ff;
-  --cat-manga: #ff4d8d;
-  --cat-figure: #ff8a3d;
-  --cat-memo: #d9c8ff;
-  --cat-pi: #9aa8ff;
+  --cat-comic: #f830a0;
+  --cat-mtg: #10a8e8;
+  --cat-cards: #f058e0;
+  --cat-funko: #e6c36a;
+  --cat-game: #308898;
+  --cat-manga: #d038b0;
+  --cat-figure: #c830a8;
+  --cat-memo: #8b93a8;
+  --cat-pi: #7fd4ef;
 
-  --radius: 12px;
-  --shadow: 0 18px 48px color-mix(in srgb, black 55%, transparent);
-  --glow: 0 0 22px color-mix(in srgb, var(--accent) 60%, transparent);
-  --glow-neon: 0 0 22px color-mix(in srgb, var(--neon) 50%, transparent);
-  --glow-gold: 0 0 22px color-mix(in srgb, var(--gold) 48%, transparent);
+  --radius: 6px;
+  --bar: 48px;
+  --sign-size: 13px;
+  --sign-skew: 0deg;
+  --tag-size: 13px;
+  --shadow: 0 10px 24px color-mix(in srgb, black 45%, transparent);
+  --glow: 0 0 12px color-mix(in srgb, var(--accent) 40%, transparent);
+  --glow-neon: 0 0 12px color-mix(in srgb, var(--neon) 40%, transparent);
+  --glow-gold: 0 0 10px color-mix(in srgb, var(--gold) 35%, transparent);
+  --font-display: "IBM Plex Mono", ui-monospace, monospace;
+  --font-ui: "IBM Plex Mono", ui-monospace, monospace;
+  --font-body: "IBM Plex Mono", ui-monospace, monospace;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }

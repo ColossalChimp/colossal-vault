@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="chimp">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Case — Collection</title>
+  <script src="js/boot.js"></script>
+  <script src="js/brand.js"></script>
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <style>
+    .detail {
+      height: 100%;
+      display: grid;
+      grid-template-columns: 340px minmax(0, 1fr) 340px;
+      gap: 10px;
+      padding: 10px 12px;
+    }
+    .big-ticket {
+      height: 100%;
+      min-height: 0;
+      padding: 16px 16px 14px 26px;
+      display: flex;
+      flex-direction: column;
+      background: var(--paper);
+      color: var(--paper-ink);
+    }
+    .ticket-band {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--accent);
+      color: var(--on-accent);
+      margin: -16px -16px 12px -8px;
+      padding: 8px 12px;
+      font-family: var(--font-display);
+      letter-spacing: 0.12em;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+    .big-ticket h2 {
+      margin: 4px 0 0;
+      font-family: var(--font-display);
+      font-size: 40px;
+      line-height: 0.9;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .issue { margin: 6px 0 0; font-family: var(--font-mono); font-size: 14px; }
+    .ticket-grid {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 12px;
+    }
+    .ticket-grid span {
+      display: block;
+      font-family: var(--font-ui);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.65;
+    }
+    .ticket-grid b { font-size: 13px; font-weight: 500; }
+    .barcode {
+      margin-top: auto;
+      height: 42px;
+      background: repeating-linear-gradient(90deg, var(--paper-ink) 0 2px, transparent 2px 4px, var(--paper-ink) 4px 5px, transparent 5px 8px);
+    }
+    .case-col { min-width: 0; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+    .hero {
+      min-height: 0;
+      flex: 1;
+      display: grid;
+      grid-template-columns: 210px 1fr;
+      gap: 12px;
+      padding: 12px;
+    }
+    .hero .vhs { width: 100%; height: 100%; }
+    .hero h2 { margin: 6px 0 4px; font-family: var(--font-display); font-size: 36px; line-height: 0.9; font-weight: 500; }
+    .lede { margin: 0 0 10px; color: var(--muted); font-size: 13px; }
+    .slip { min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+    .receipt { padding: 12px; display: flex; flex-direction: column; gap: 3px; }
+    .receipt-head { font-size: 13px; letter-spacing: 0.06em; white-space: nowrap; }
+    .receipt h3 { margin: 2px 0 4px; font-family: var(--font-display); font-size: 24px; line-height: 1; font-weight: 500; }
+    .slip-row { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; }
+    .slip-row span { opacity: 0.7; }
+    .dialog { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+    .dialog h3 { margin: 0; font-family: var(--font-display); font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; }
+    .actions { display: flex; gap: 8px; }
+  </style>
+</head>
+<body data-screen="Case" data-nav="browse" data-home="home.html">
+  <div class="app fit">
+    <header id="topbar" class="topbar"></header>
+    <main class="stage">
+      <div class="detail" data-detail="one-ring">
+        <article class="ticket big-ticket">
+          <div class="ticket-band"><span>Title card</span><span data-bind="mark">001</span></div>
+          <p class="kicker" style="color:inherit;opacity:0.6">Admit one copy</p>
+          <h2 data-bind="title">The One Ring</h2>
+          <p class="issue" data-bind="meta">LTR · 001</p>
+          <div class="ticket-grid">
+            <div><span>Aisle</span><b data-bind="aisle">Magic</b></div>
+            <div><span>Year</span><b data-bind="year">2023</b></div>
+            <div><span>Finish</span><b data-bind="finish">Nonfoil</b></div>
+            <div><span>Condition</span><b data-bind="condition">Near Mint</b></div>
+            <div><span>Bin</span><b data-bind="location">Binder · Mythic</b></div>
+            <div><span>Tags</span><b data-bind="tagsLabel">Legendary · Mythic</b></div>
+            <div><span>Franchise</span><b data-bind="franchise">Middle-earth</b></div>
+            <div><span>Est. value</span><b data-bind="valueLabel">$89.00</b></div>
+          </div>
+          <div class="barcode" aria-hidden="true"></div>
+        </article>
+        <section class="case-col">
+          <div class="toolbar">
+            <h2 class="aisle-sign alt"><span data-bind="aisle">Magic</span></h2>
+            <a class="grow" href="browse.html">Back to the wall</a>
+          </div>
+          <article class="panel hero">
+            <div class="vhs" data-cat-bind data-cat="mtg">
+              <div class="vhs-spine"><span data-bind="spine">One Ring</span></div>
+              <div class="vhs-face">
+                <div class="vhs-window"><div class="art" data-cover="one-ring"></div></div>
+                <div class="vhs-label"><strong data-bind="title">The One Ring</strong><span data-bind="meta">LTR · 001</span></div>
+              </div>
+            </div>
+            <div>
+              <p class="kicker">Open case</p>
+              <h2 data-bind="title">The One Ring</h2>
+              <p class="lede" data-bind="note">Showcase frame. Price guide matched the nonfoil printing.</p>
+              <div class="field-grid">
+                <div class="field"><span>Series</span><b data-bind="series">Tales of Middle-earth</b></div>
+                <div class="field"><span>Number</span><b data-bind="meta">LTR · 001</b></div>
+                <div class="field"><span>Finish</span><b data-bind="finish">Nonfoil</b></div>
+                <div class="field"><span>Rarity</span><b data-bind="rarity">Mythic</b></div>
+                <div class="field"><span>Publisher</span><b data-bind="publisher">Wizards of the Coast</b></div>
+                <div class="field"><span>Read</span><b data-bind="confidence">94%</b></div>
+              </div>
+            </div>
+          </article>
+        </section>
+        <aside class="slip">
+          <article class="receipt">
+            <div class="receipt-head"><span data-brand>Colossal Vault</span><span>Match slip</span></div>
+            <hr class="rule" />
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span class="stamp">Match</span>
+              <b data-bind="confidence">94%</b>
+            </div>
+            <h3 data-bind="title">The One Ring</h3>
+            <div class="slip-row"><span>Aisle</span><b data-bind="aisle">Magic</b></div>
+            <div class="slip-row"><span>Set / issue</span><b data-bind="meta">LTR · 001</b></div>
+            <div class="slip-row"><span>Finish</span><b data-bind="finish">Nonfoil</b></div>
+            <div class="slip-row"><span>Guide</span><b data-bind="valueLabel">$89.00</b></div>
+            <div class="slip-row"><span>Source</span><b data-bind="guide">Price guide · Scryfall</b></div>
+            <div class="slip-row"><span>Bin</span><b data-bind="location">Binder · Mythic</b></div>
+            <p class="note" style="color:inherit;margin-top:6px">Be kind, rewind</p>
+          </article>
+          <form class="dialog" action="#" onsubmit="return false">
+            <h3>Correct the label</h3>
+            <label class="dlg-field"><span>Title</span><b data-bind="title">The One Ring</b></label>
+            <div class="field-grid">
+              <label class="dlg-field"><span>Aisle</span><b data-bind="aisle">Magic</b></label>
+              <label class="dlg-field"><span>Condition</span><b data-bind="condition">Near Mint</b></label>
+            </div>
+            <label class="dlg-field"><span>Bin</span><b data-bind="location">Binder · Mythic</b></label>
+            <div class="actions">
+              <button type="button" class="btn solid">File it</button>
+              <button type="button" class="btn ghost">Hold</button>
+            </div>
+          </form>
+        </aside>
+      </div>
+    </main>
+  </div>
+  <script src="js/shell.js"></script>
+  <script src="js/catalog.js"></script>
+</body>
+</html>

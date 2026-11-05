@@ -1,40 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="classic">
+<html lang="en" data-theme="chimp">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Collection drafts — Chimp.OS</title>
   <script src="js/boot.js"></script>
+  <script src="js/brand.js"></script>
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/base.css" />
   <style>
     .index {
       height: 100%;
       display: grid;
-      grid-template-rows: auto 1fr;
+      grid-template-rows: auto auto 1fr auto;
       gap: 12px;
-      padding: 14px 16px 16px;
+      padding: 14px 16px 14px;
     }
-    .intro {
-      display: grid;
-      grid-template-columns: 1.4fr 220px 220px;
-      gap: 12px;
-      align-items: stretch;
-    }
-    .intro-copy h2 {
-      margin: 0;
-      font-family: var(--font-display);
-      font-size: 42px;
-      line-height: 0.9;
-      font-weight: 400;
-      letter-spacing: 0.03em;
-    }
-    .intro-copy p { margin: 6px 0 0; color: var(--muted); max-width: 78ch; }
-    .swatch-card {
+    .intro { display: grid; grid-template-columns: 1.4fr 240px 240px; gap: 12px; }
+    .intro h2 { margin: 0; font-family: var(--font-display); font-size: 36px; font-weight: 500; letter-spacing: 0.04em; line-height: 1; }
+    .intro p { margin: 8px 0 0; color: var(--muted); max-width: 70ch; font-size: 14px; }
+    .swatch {
       background: var(--panel);
       color: var(--ink);
       border: 1px solid var(--line);
-      border-bottom: 5px solid var(--accent);
+      border-bottom: 3px solid var(--accent);
       border-radius: var(--radius);
       padding: 10px 12px;
       display: flex;
@@ -42,52 +31,33 @@
       justify-content: center;
       gap: 4px;
     }
-    .swatch-card b { font-family: var(--font-display); font-size: 22px; font-weight: 400; letter-spacing: 0.04em; }
-    .swatch-card small { color: var(--muted); }
+    .swatch b { font-family: var(--font-display); font-size: 16px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+    .swatch small { color: var(--muted); }
     .dots { display: flex; gap: 6px; }
-    .dots i { width: 14px; height: 14px; border-radius: 50%; display: block; background: var(--accent); box-shadow: var(--glow); }
-    .dots i:nth-child(2) { background: var(--neon); box-shadow: var(--glow-neon); }
-    .dots i:nth-child(3) { background: var(--gold); box-shadow: var(--glow-gold); }
-    .board {
-      min-height: 0;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      gap: 10px;
-    }
-    .draft-ticket {
-      --cat: var(--accent);
+    .dots i { width: 12px; height: 12px; border-radius: 50%; background: var(--accent); display: block; }
+    .dots i:nth-child(2) { background: var(--neon); }
+    .dots i:nth-child(3) { background: var(--gold); }
+    .board { min-height: 0; display: grid; grid-template-columns: 1.3fr repeat(4, 1fr); gap: 10px; }
+    .ticket {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
       min-width: 0;
-      padding: 12px 12px 12px 22px;
+      padding: 14px 14px 14px 18px;
       background: var(--panel);
-      color: var(--ink);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      box-shadow: inset 6px 0 0 var(--cat);
+      box-shadow: inset 4px 0 0 var(--accent);
     }
-    .draft-ticket[data-kind="detail"] { --cat: var(--gold); }
-    .draft-ticket[data-kind="queue"] { --cat: var(--neon); }
-    .draft-ticket[data-kind="stats"] { --cat: var(--cat-manga); }
-    .draft-ticket .num { font-size: 28px; color: var(--cat); }
-    .draft-ticket strong { font-family: var(--font-ui); font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; }
-    .draft-ticket p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.35; }
-    .kind {
-      margin-top: auto;
-      font-family: var(--font-ui);
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--on-accent);
-      background: var(--cat);
-      align-self: flex-start;
-      padding: 3px 8px;
-      border-radius: var(--radius-pill);
-    }
-    .draft-ticket[data-kind="queue"] .kind { color: var(--on-neon); }
-    .draft-ticket:hover { transform: translateY(-2px); }
+    .ticket.home { box-shadow: inset 4px 0 0 var(--gold); }
+    .ticket .kicker { margin: 0; }
+    .ticket strong { font-family: var(--font-display); font-size: 22px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+    .ticket p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.4; }
+    .ticket .go { margin-top: auto; font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+    .archive { border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 12px; background: var(--panel); }
+    .archive .row { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 6px; }
+    .archive a { font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    .archive a:hover { color: var(--ink); }
   </style>
 </head>
 <body data-screen="Drafts" data-home="index.html">
@@ -96,35 +66,47 @@
     <main class="stage">
       <div class="index">
         <section class="intro">
-          <div class="intro-copy">
-            <h2>Twelve ways into the tape room</h2>
-            <p>Desktop drafts for the Chimp.OS Collection section. Same parts — clamshells, spines, aisle signs, tickets, membership card, match slips — on the Chimp.OS variables. Open any draft and switch Classic or Cyberpunk. The choice sticks in this browser.</p>
+          <div>
+            <p class="kicker">Collection section</p>
+            <h2 data-brand>Colossal Vault</h2>
+            <p>Five screens. The lobby is home. The wall, the case, the queue, and the close carry the rest of the tape-room ideas. Switch Classic or Chimp.OS. The choice sticks. Counts on these screens are placeholders.</p>
           </div>
-          <article class="swatch-card" data-theme="classic">
+          <article class="swatch" data-theme="classic">
             <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
             <b>Video Store Classic</b>
             <small>Royal blue and ticket yellow</small>
           </article>
-          <article class="swatch-card" data-theme="cyber">
+          <article class="swatch" data-theme="chimp">
             <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-            <b>Chimp.OS Cyberpunk</b>
-            <small>Black, neon purple, green, gold</small>
+            <b>Chimp.OS</b>
+            <small>Slate, pink, cyan, teal</small>
           </article>
         </section>
-        <nav class="board" aria-label="Design drafts">
-          <a class="draft-ticket" data-kind="browser" href="drafts/01-shelf-wall.html"><span class="num">01</span><strong>Shelf wall</strong><p>Face-out clamshells on category shelves, with aisle filters and sort.</p><span class="kind">Browser</span></a>
-          <a class="draft-ticket" data-kind="browser" href="drafts/02-spine-wall.html"><span class="num">02</span><strong>Spine wall</strong><p>Dense VHS spines for a 20,000-card aisle, plus the sleeve you pulled.</p><span class="kind">Browser</span></a>
-          <a class="draft-ticket" data-kind="browser" href="drafts/03-marquee-grid.html"><span class="num">03</span><strong>Marquee grid</strong><p>New-release poster wall. Ticket-stub filters across the top.</p><span class="kind">Browser</span></a>
-          <a class="draft-ticket" data-kind="browser" href="drafts/04-store-map.html"><span class="num">04</span><strong>Store map</strong><p>Walk the floor plan, pick an aisle, see that bay face out.</p><span class="kind">Browser</span></a>
-          <a class="draft-ticket" data-kind="detail" href="drafts/05-rental-case.html"><span class="num">05</span><strong>Rental case</strong><p>Open clamshell, receipt match slip, and a correct-the-label dialog.</p><span class="kind">Detail</span></a>
-          <a class="draft-ticket" data-kind="detail" href="drafts/06-sleeve-ticket.html"><span class="num">06</span><strong>Sleeve &amp; ticket</strong><p>Oversized torn ticket beside the photo, neighbors in the same bin.</p><span class="kind">Detail</span></a>
-          <a class="draft-ticket" data-kind="queue" href="drafts/07-returns-counter.html"><span class="num">07</span><strong>Returns counter</strong><p>Scan queue, light table with tracking lines, confirm-or-correct slip.</p><span class="kind">Queue</span></a>
-          <a class="draft-ticket" data-kind="queue" href="drafts/08-bulk-drop.html"><span class="num">08</span><strong>Bulk drop</strong><p>A folder of photos as a bin. File the confident rows, hold the rest.</p><span class="kind">Import</span></a>
-          <a class="draft-ticket" data-kind="stats" href="drafts/09-membership.html"><span class="num">09</span><strong>Membership</strong><p>Plastic member card and a trophy case of aisle counts and value.</p><span class="kind">Stats</span></a>
-          <a class="draft-ticket" data-kind="stats" href="drafts/10-nightly-close.html"><span class="num">10</span><strong>Nightly close</strong><p>Register receipt for the vault, stock bars, and tonight's returns.</p><span class="kind">Stats</span></a>
-          <a class="draft-ticket" data-kind="browser" href="drafts/11-lookup-terminal.html"><span class="num">11</span><strong>Lookup terminal</strong><p>Search-and-sort desk. Rows instead of shelves, for the whole vault.</p><span class="kind">Browser</span></a>
-          <a class="draft-ticket" data-kind="browser" href="drafts/12-store-lobby.html"><span class="num">12</span><strong>Store lobby</strong><p>The section's front door. Marquee, aisle doors, new-release shelf.</p><span class="kind">Lobby</span></a>
+        <p class="kicker">This round</p>
+        <nav class="board" aria-label="Screens">
+          <a class="ticket home" href="home.html"><span class="kicker">01 · Home</span><strong>Store lobby</strong><p>Marquee, aisle doors, and the new-release shelf, with counts, value, the drop, and the top mover.</p><span class="go">Open home</span></a>
+          <a class="ticket" href="browse.html"><span class="kicker">02 · Browse</span><strong>The wall</strong><p>Shelf, spines, posters, and the aisle map with sort and filters.</p><span class="go">Open the wall</span></a>
+          <a class="ticket" href="item.html"><span class="kicker">03 · Detail</span><strong>Case and ticket</strong><p>Title card, open clamshell, match slip, and the label dialog.</p><span class="go">Open a case</span></a>
+          <a class="ticket" href="queue.html"><span class="kicker">04 · Queue</span><strong>Drop and lookup</strong><p>Folder totals, the returns counter, and a search of what’s already filed.</p><span class="go">Open the queue</span></a>
+          <a class="ticket" href="stats.html"><span class="kicker">05 · Stats</span><strong>Membership close</strong><p>Member card, aisle trophies, nightly receipt, stock, and movers.</p><span class="go">Open the close</span></a>
         </nav>
+        <section class="archive">
+          <p class="kicker">Previous round · twelve drafts</p>
+          <div class="row">
+            <a href="archive/01-shelf-wall.html">01 Shelf wall</a>
+            <a href="archive/02-spine-wall.html">02 Spine wall</a>
+            <a href="archive/03-marquee-grid.html">03 Marquee grid</a>
+            <a href="archive/04-store-map.html">04 Store map</a>
+            <a href="archive/05-rental-case.html">05 Rental case</a>
+            <a href="archive/06-sleeve-ticket.html">06 Sleeve &amp; ticket</a>
+            <a href="archive/07-returns-counter.html">07 Returns counter</a>
+            <a href="archive/08-bulk-drop.html">08 Bulk drop</a>
+            <a href="archive/09-membership.html">09 Membership</a>
+            <a href="archive/10-nightly-close.html">10 Nightly close</a>
+            <a href="archive/11-lookup-terminal.html">11 Lookup terminal</a>
+            <a href="archive/12-store-lobby.html">12 Store lobby</a>
+          </div>
+        </section>
       </div>
     </main>
   </div>

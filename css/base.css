@@ -70,7 +70,7 @@ svg {
 
 .topbar {
   position: relative;
-  height: 58px;
+  height: var(--bar, 58px);
   flex: none;
   display: flex;
   align-items: center;
@@ -135,7 +135,7 @@ svg {
   margin: 0;
   font-family: var(--font-display);
   letter-spacing: 0.2em;
-  font-size: 26px;
+  font-size: var(--tag-size, 26px);
   line-height: 1;
   color: var(--accent);
   text-transform: uppercase;
@@ -200,8 +200,33 @@ svg {
   letter-spacing: 0.04em;
 }
 
+.section-nav {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.section-nav a {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 6px 8px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+}
+
+.section-nav a[aria-current="page"] {
+  color: var(--ink);
+  background: var(--selected);
+  border-color: var(--accent);
+}
+
 [data-cat="comic"] { --cat: var(--cat-comic); }
 [data-cat="mtg"] { --cat: var(--cat-mtg); }
+[data-cat="cards"] { --cat: var(--cat-cards); }
 [data-cat="funko"] { --cat: var(--cat-funko); }
 [data-cat="game"] { --cat: var(--cat-game); }
 [data-cat="manga"] { --cat: var(--cat-manga); }
@@ -217,20 +242,20 @@ svg {
   background: var(--accent);
   color: var(--on-accent);
   font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 400;
+  font-size: var(--sign-size, 22px);
+  font-weight: 500;
   letter-spacing: 0.08em;
   line-height: 1;
   text-transform: uppercase;
   border: 0;
   border-radius: 2px;
-  transform: skewX(-8deg);
+  transform: skewX(var(--sign-skew, -8deg));
   box-shadow: var(--glow);
 }
 
 .aisle-sign > span {
   display: inline-block;
-  transform: skewX(8deg);
+  transform: skewX(calc(var(--sign-skew, -8deg) * -1));
 }
 
 .aisle-sign.alt {
@@ -253,7 +278,7 @@ svg {
 }
 
 .aisle-sign.compact {
-  font-size: 18px;
+  font-size: var(--sign-size, 18px);
   width: 100%;
   justify-content: stretch;
   padding: 7px 10px 6px;

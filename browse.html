@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="chimp">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wall — Collection</title>
+  <script src="js/boot.js"></script>
+  <script src="js/brand.js"></script>
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <style>
+    .browse { height: 100%; display: grid; grid-template-columns: 220px 1fr; }
+    .browse .filters { gap: 10px; padding: 10px 12px; }
+    .browse .aisle-sign.compact { padding: 4px 8px 3px; }
+    .browse-main { min-width: 0; min-height: 0; display: flex; flex-direction: column; gap: 8px; padding: 10px 12px 10px; }
+    .bays { display: flex; gap: 6px; }
+    .bay {
+      flex: 1;
+      min-width: 0;
+      text-align: left;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      color: var(--ink);
+      padding: 6px 8px 5px;
+      box-shadow: inset 0 -2px 0 var(--cat, var(--accent));
+    }
+    .bay span { display: block; font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .bay b { display: block; margin-top: 2px; font-family: var(--font-display); font-size: 16px; font-weight: 500; }
+    .bay[aria-pressed="true"] { background: var(--selected); border-color: var(--accent); }
+    .now {
+      display: grid;
+      grid-template-columns: 86px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+    }
+    .now .vhs { width: 86px; height: 112px; }
+    .now h3 { margin: 2px 0; font-family: var(--font-display); font-size: 28px; font-weight: 500; letter-spacing: 0.03em; line-height: 0.95; }
+    .now p { margin: 0; color: var(--muted); font-size: 12px; max-width: 62ch; }
+    .face .vhs { width: 128px; height: 172px; }
+    .spine-line { display: flex; gap: 6px; height: 128px; align-items: stretch; }
+    .spine-line .tape { height: auto; width: 100%; flex: 1; }
+    .posters { display: none; grid-template-columns: repeat(6, 1fr); gap: 8px; min-height: 0; flex: 1; }
+    .posters .poster { min-height: 0; }
+    .browse-main[data-mode="spines"] .face,
+    .browse-main[data-mode="spines"] .posters,
+    .browse-main[data-mode="posters"] .face,
+    .browse-main[data-mode="posters"] .spine-block,
+    .browse-main[data-mode="wall"] .posters { display: none; }
+    .browse-main[data-mode="posters"] .posters { display: grid; }
+    .browse-main[data-mode="spines"] .spine-line { height: 100%; flex: 1; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body data-screen="Wall" data-nav="browse" data-home="home.html">
+  <div class="app fit">
+    <header id="topbar" class="topbar"></header>
+    <main class="stage">
+      <div class="browse" data-browser data-sort="recent">
+        <aside class="filters">
+          <div>
+            <p class="kicker">Aisles</p>
+            <div class="filter-stack" style="margin-top:8px">
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="all" aria-pressed="true"><span>All <em>35,153</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="comic"><span>Comics <em>10,482</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="mtg"><span>Magic <em>19,847</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="cards"><span>Cards <em>2,150</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="funko"><span>Funko <em>1,306</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="game"><span>Games <em>640</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="manga"><span>Manga <em>410</em></span></button>
+              <button type="button" class="aisle-sign compact quiet" data-filter-cat="figure"><span>Figures <em>188</em></span></button>
+            </div>
+          </div>
+          <div>
+            <p class="kicker">Sort</p>
+            <div class="chip-row" style="margin-top:8px">
+              <button type="button" class="chip" data-sort="recent" aria-pressed="true">Recent</button>
+              <button type="button" class="chip" data-sort="title">Title</button>
+              <button type="button" class="chip" data-sort="value">Value</button>
+            </div>
+          </div>
+          <div>
+            <p class="kicker">View</p>
+            <div class="chip-row" style="margin-top:8px">
+              <button type="button" class="chip is-on" data-view="wall" aria-pressed="true">Wall</button>
+              <button type="button" class="chip" data-view="spines">Spines</button>
+              <button type="button" class="chip" data-view="posters">Posters</button>
+            </div>
+          </div>
+          <p class="note">Wall shows cases and spines together.</p>
+        </aside>
+        <div class="browse-main" data-mode="wall">
+          <div class="bays" id="bays">
+            <button type="button" class="bay" data-cat="comic" data-filter-cat="comic"><span>Long boxes</span><b>10,482</b></button>
+            <button type="button" class="bay" data-cat="mtg" data-filter-cat="mtg"><span>Binders</span><b>19,847</b></button>
+            <button type="button" class="bay" data-cat="cards" data-filter-cat="cards"><span>Other cards</span><b>2,150</b></button>
+            <button type="button" class="bay" data-cat="funko" data-filter-cat="funko"><span>POP wall</span><b>1,306</b></button>
+            <button type="button" class="bay" data-cat="game" data-filter-cat="game"><span>Cartridges</span><b>640</b></button>
+            <button type="button" class="bay" data-cat="manga" data-filter-cat="manga"><span>Manga</span><b>410</b></button>
+          </div>
+          <section class="now">
+            <a class="vhs" data-cat="comic" href="item.html?id=asm-300"><div class="vhs-spine"><span>ASM</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="asm-300"></div></div><div class="vhs-label"><strong>ASM 300</strong><span>Now</span></div></div></a>
+            <div>
+              <p class="kicker">Now showing</p>
+              <h3>Amazing Spider-Man #300</h3>
+              <p>Face-out feature from the front wall. The cases below are the shelf. The spines are the same aisle, packed.</p>
+            </div>
+            <a class="btn solid" href="item.html?id=asm-300">Open</a>
+          </section>
+          <section class="face shelf-block">
+            <div class="toolbar">
+              <h2 class="aisle-sign"><span>New releases</span></h2>
+              <span class="grow" id="face-note">Sample of the wall</span>
+            </div>
+            <div class="shelf">
+              <div class="shelf-row" data-sort-list>
+                <a class="vhs" data-cat="funko" data-item data-title="grogu" data-value="18" data-recent="1" href="item.html?id=grogu"><div class="vhs-spine"><span>Grogu</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="grogu"></div></div><div class="vhs-label"><strong>Grogu</strong><span>$18</span></div></div></a>
+                <a class="vhs" data-cat="mtg" data-item data-title="the one ring" data-value="89" data-recent="2" href="item.html?id=one-ring"><div class="vhs-spine"><span>One Ring</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="one-ring"></div></div><div class="vhs-label"><strong>The One Ring</strong><span>$89</span></div></div></a>
+                <a class="vhs" data-cat="cards" data-item data-title="charizard" data-value="280" data-recent="3" href="item.html?id=charizard"><div class="vhs-spine"><span>Charizard</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="charizard"></div></div><div class="vhs-label"><strong>Charizard</strong><span>$280</span></div></div></a>
+                <a class="vhs" data-cat="comic" data-item data-title="saga #1" data-value="220" data-recent="4" href="item.html?id=saga-1"><div class="vhs-spine"><span>Saga 1</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="saga-1"></div></div><div class="vhs-label"><strong>Saga #1</strong><span>$220</span></div></div></a>
+                <a class="vhs" data-cat="game" data-item data-title="chrono trigger" data-value="420" data-recent="5" href="item.html?id=chrono"><div class="vhs-spine"><span>Chrono</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="chrono"></div></div><div class="vhs-label"><strong>Chrono Trigger</strong><span>$420</span></div></div></a>
+                <a class="vhs" data-cat="mtg" data-item data-title="black lotus" data-value="12000" data-recent="6" href="item.html?id=lotus"><div class="vhs-spine"><span>Lotus</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="lotus"></div></div><div class="vhs-label"><strong>Black Lotus</strong><span>$12,000</span></div></div></a>
+                <a class="vhs" data-cat="funko" data-item data-title="vegeta metallic" data-value="64" data-recent="7" href="item.html?id=vegeta"><div class="vhs-spine"><span>Vegeta</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="vegeta"></div></div><div class="vhs-label"><strong>Vegeta</strong><span>$64</span></div></div></a>
+                <a class="vhs" data-cat="manga" data-item data-title="berserk vol. 1" data-value="55" data-recent="8" href="item.html?id=berserk"><div class="vhs-spine"><span>Berserk</span></div><div class="vhs-face"><div class="vhs-window"><div class="art" data-cover="berserk"></div></div><div class="vhs-label"><strong>Berserk 1</strong><span>$55</span></div></div></a>
+              </div>
+            </div>
+          </section>
+          <section class="spine-block">
+            <div class="toolbar">
+              <h2 class="aisle-sign alt"><span>On the spine</span></h2>
+              <span class="grow" id="spine-note">Packed row · same filter</span>
+            </div>
+            <div class="spine-line" id="spine-line"></div>
+          </section>
+          <section class="posters" id="poster-grid"></section>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="js/shell.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/browser.js"></script>
+  <script>
+    (function () {
+      var main = document.querySelector(".browse-main");
+      var line = document.getElementById("spine-line");
+      var posters = document.getElementById("poster-grid");
+      var items = window.REWIND.items.slice();
+
+      function paintSpines() {
+        var visible = Array.prototype.filter.call(document.querySelectorAll(".face [data-item]"), function (el) {
+          return !el.hidden;
+        });
+        var pool = visible.length ? visible : Array.prototype.slice.call(document.querySelectorAll(".face [data-item]"));
+        line.innerHTML = "";
+        for (var i = 0; i < 16; i++) {
+          var el = pool[i % pool.length];
+          var entry = window.REWIND.byId[el.getAttribute("href").split("id=")[1]];
+          var btn = document.createElement("a");
+          btn.className = "tape";
+          btn.href = el.getAttribute("href");
+          btn.setAttribute("data-cat", entry.category);
+          btn.innerHTML = '<span class="tape-label"></span>';
+          btn.querySelector(".tape-label").textContent = entry.spine;
+          line.appendChild(btn);
+        }
+      }
+
+      function paintPosters() {
+        posters.innerHTML = "";
+        items.slice().sort(function (a, b) { return b.value - a.value; }).slice(0, 6).forEach(function (entry) {
+          var a = document.createElement("a");
+          a.className = "poster";
+          a.href = "item.html?id=" + entry.id;
+          a.setAttribute("data-cat", entry.category);
+          a.innerHTML = '<div class="art"></div><div class="poster-cap"><strong></strong><em></em></div>';
+          a.querySelector(".art").innerHTML = window.REWIND.coverArt(entry);
+          a.querySelector("strong").textContent = entry.title;
+          a.querySelector("em").textContent = entry.valueLabel;
+          posters.appendChild(a);
+        });
+      }
+
+      document.querySelectorAll("[data-view]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          main.dataset.mode = btn.getAttribute("data-view");
+          document.querySelectorAll("[data-view]").forEach(function (other) {
+            var on = other === btn;
+            other.setAttribute("aria-pressed", on ? "true" : "false");
+            other.classList.toggle("is-on", on);
+          });
+        });
+      });
+
+      var aisle = new URLSearchParams(location.search).get("aisle");
+      if (aisle) {
+        var hit = document.querySelector('.filters [data-filter-cat="' + aisle + '"]');
+        if (hit) hit.click();
+      }
+      paintPosters();
+      paintSpines();
+      document.querySelector(".browse").addEventListener("click", function () {
+        setTimeout(paintSpines, 0);
+      });
+    })();
+  </script>
+</body>
+</html>

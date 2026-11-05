@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="chimp">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Queue — Collection</title>
+  <script src="js/boot.js"></script>
+  <script src="js/brand.js"></script>
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <style>
+    .queue-page {
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) 196px;
+      gap: 8px;
+      padding: 10px 12px;
+    }
+    .banner { display: grid; grid-template-columns: 1.5fr repeat(3, 0.7fr) auto; gap: 8px; align-items: stretch; }
+    .banner article { padding: 8px 12px; }
+    .banner h2 { margin: 2px 0 0; font-family: var(--font-display); font-size: 20px; font-weight: 500; letter-spacing: 0.04em; }
+    .banner .num { font-family: var(--font-display); font-size: 28px; line-height: 1; }
+    .banner .cyan { color: var(--neon); }
+    .banner .gold { color: var(--gold); }
+    .banner .actions { display: flex; flex-direction: column; gap: 6px; justify-content: center; }
+    .counter { min-height: 0; display: grid; grid-template-columns: 280px minmax(0, 1fr) 320px; gap: 8px; }
+    .queue, .slip { min-height: 0; display: flex; flex-direction: column; gap: 6px; padding: 10px; }
+    .queue-list { display: flex; flex-direction: column; gap: 4px; min-height: 0; overflow: auto; }
+    .viewer { min-width: 0; min-height: 0; display: flex; }
+    .viewer .crt { flex: 1; width: 100%; min-height: 0; }
+    .receipt-head { font-size: 13px; letter-spacing: 0.08em; white-space: nowrap; }
+    .receipt { padding: 10px; display: flex; flex-direction: column; gap: 2px; min-height: 0; }
+    .receipt h3 { margin: 2px 0; font-family: var(--font-display); font-size: 22px; font-weight: 500; line-height: 1; }
+    .slip-row { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; }
+    .choice {
+      display: grid;
+      grid-template-columns: 28px 1fr auto;
+      gap: 8px;
+      align-items: center;
+      width: 100%;
+      text-align: left;
+      padding: 4px 6px;
+      margin-top: 4px;
+      border-radius: calc(var(--radius) - 2px);
+      border: 1px solid color-mix(in srgb, var(--paper-ink) 30%, transparent);
+      color: var(--paper-ink);
+      background: transparent;
+    }
+    .choice.is-on { border-color: var(--accent); }
+    .choice i { width: 28px; height: 18px; border-radius: 3px; background: var(--gold); display: block; }
+    .q-copy strong, .q-copy small { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .q-copy small { font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    .lookup { min-height: 0; display: grid; grid-template-rows: auto 1fr; padding: 8px 10px; }
+    .lookup-head { display: flex; gap: 10px; align-items: center; }
+    .lookup input {
+      flex: 1;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 6px 8px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 500; padding: 4px 6px; }
+    td { padding: 3px 6px; border-top: 1px solid var(--line); }
+    tr[hidden] { display: none; }
+  </style>
+</head>
+<body data-screen="Queue" data-nav="queue" data-home="home.html">
+  <div class="app fit">
+    <header id="topbar" class="topbar"></header>
+    <main class="stage">
+      <div class="queue-page">
+        <section class="banner">
+          <article class="panel">
+            <p class="kicker">Bin drop</p>
+            <h2>~/Pictures/Vault/Saturday</h2>
+          </article>
+          <article class="panel"><span class="kicker">Files</span><div class="num">240</div></article>
+          <article class="panel"><span class="kicker">Ready</span><div class="num cyan">190</div></article>
+          <article class="panel"><span class="kicker">Need a label</span><div class="num gold">50</div></article>
+          <div class="actions">
+            <button type="button" class="btn solid">File the 190</button>
+            <button type="button" class="btn ghost">Hold the rest</button>
+          </div>
+        </section>
+        <div class="counter">
+          <aside class="panel queue">
+            <h2 class="aisle-sign"><span>In the drop</span></h2>
+            <p class="note">12 photos. Reads finish while you file the one on the glass.</p>
+            <div class="queue-list">
+              <button type="button" class="q-item is-active"><span class="q-thumb"><span class="art" data-cover="one-ring"></span></span><span class="q-copy"><strong>The One Ring</strong><small>Magic · 94%</small></span><span class="status ready">Ready</span></button>
+              <button type="button" class="q-item"><span class="q-thumb"><span class="art" data-cover="grogu"></span></span><span class="q-copy"><strong>Grogu</strong><small>Funko · 97%</small></span><span class="status ready">Ready</span></button>
+              <button type="button" class="q-item"><span class="q-thumb"><span class="art" data-cover="charizard"></span></span><span class="q-copy"><strong>Charizard</strong><small>Cards · 90%</small></span><span class="status ready">Ready</span></button>
+              <button type="button" class="q-item"><span class="q-thumb"><span class="art" data-cover="joke"></span></span><span class="q-copy"><strong>Needs a title</strong><small>Photo 014 · glare</small></span><span class="status hold">Label</span></button>
+              <button type="button" class="q-item"><span class="q-thumb"><span class="art" data-cover="saga-1"></span></span><span class="q-copy"><strong>Saga #1</strong><small>Still reading</small></span><span class="status tracking">Tracking</span></button>
+              <button type="button" class="q-item"><span class="q-thumb"><span class="art" data-cover="pi-5"></span></span><span class="q-copy"><strong>Raspberry Pi 5</strong><small>Filed to the rack</small></span><span class="status filed">Filed</span></button>
+            </div>
+          </aside>
+          <section class="viewer">
+            <div class="crt">
+              <div class="art" data-cover="one-ring"></div>
+              <div class="crt-tag"><span class="rec-dot"></span> Tracking · photo 011</div>
+            </div>
+          </section>
+          <article class="receipt slip">
+            <div class="receipt-head"><span data-brand>Colossal Vault</span><span>Match slip</span></div>
+            <hr class="rule" />
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="stamp">Match</span><span>94%</span></div>
+            <h3>The One Ring</h3>
+            <div class="slip-row"><span>Aisle</span><b>Magic</b></div>
+            <div class="slip-row"><span>Set</span><b>LTR · 001</b></div>
+            <div class="slip-row"><span>Finish</span><b>Nonfoil</b></div>
+            <button type="button" class="choice is-on"><i></i><span><b>LTR · 001</b><small style="display:block">Nonfoil</small></span><b>$89</b></button>
+            <button type="button" class="choice"><i style="background:var(--neon)"></i><span><b>LTR · 001</b><small style="display:block">Foil</small></span><b>$164</b></button>
+            <div class="slip-row" style="margin-top:6px"><span>Bin</span><b>Binder · Mythic</b></div>
+            <div class="actions" style="margin-top:8px">
+              <a class="btn solid" href="item.html?id=one-ring">File it</a>
+              <button type="button" class="btn on-paper">Fix label</button>
+            </div>
+          </article>
+        </div>
+        <section class="panel lookup">
+          <div class="lookup-head">
+            <p class="kicker" style="margin:0">Already on the shelf</p>
+            <input id="lookup" type="search" placeholder="Title, set, issue, tag" aria-label="Search the vault" />
+          </div>
+          <div style="overflow:auto">
+            <table>
+              <thead><tr><th>Title</th><th>Aisle</th><th>Set / issue</th><th>Bin</th><th>Value</th></tr></thead>
+              <tbody id="lookup-body">
+                <tr data-q="black lotus magic unlimited"><td><a href="item.html?id=lotus">Black Lotus</a></td><td>Magic</td><td>Unlimited · 232</td><td>Safe · Power</td><td>$12,000</td></tr>
+                <tr data-q="the one ring ltr magic"><td><a href="item.html?id=one-ring">The One Ring</a></td><td>Magic</td><td>LTR · 001</td><td>Binder · Mythic</td><td>$89.00</td></tr>
+                <tr data-q="charizard pokemon cards base"><td><a href="item.html?id=charizard">Charizard</a></td><td>Cards</td><td>Base · 4/102</td><td>Binder · Vintage</td><td>$280</td></tr>
+                <tr data-q="amazing spider-man comics 300"><td><a href="item.html?id=asm-300">Amazing Spider-Man #300</a></td><td>Comics</td><td>Marvel · 300</td><td>Long box · Marvel</td><td>$850</td></tr>
+                <tr data-q="grogu funko pop"><td><a href="item.html?id=grogu">Grogu</a></td><td>Funko</td><td>Pop · 465</td><td>POP wall A</td><td>$18</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="js/shell.js"></script>
+  <script src="js/catalog.js"></script>
+  <script>
+    document.getElementById("lookup").addEventListener("input", function (event) {
+      var q = event.target.value.trim().toLowerCase();
+      document.querySelectorAll("#lookup-body tr").forEach(function (row) {
+        row.hidden = q && row.dataset.q.indexOf(q) === -1;
+      });
+    });
+  </script>
+</body>
+</html>

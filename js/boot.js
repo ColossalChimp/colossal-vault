@@ -1,21 +1,26 @@
-/* Apply the saved theme before paint. Query ?theme=classic|cyber wins and is remembered. */
+/* Apply the saved theme before paint. ?theme=classic|chimp wins and is remembered.
+   ?theme=cyber is the old name for the Chimp.OS palette. */
 (function () {
-  var THEMES = { classic: 1, cyber: 1 };
+  function normalize(theme) {
+    if (theme === "cyber") return "chimp";
+    if (theme === "classic" || theme === "chimp") return theme;
+    return "";
+  }
 
   function readSaved() {
     try {
-      return localStorage.getItem("rewind-theme");
+      return normalize(localStorage.getItem("vault-theme") || localStorage.getItem("rewind-theme"));
     } catch (err) {
-      return null;
+      return "";
     }
   }
 
   function paint(theme, persist) {
-    if (!THEMES[theme]) theme = "classic";
+    theme = normalize(theme) || "chimp";
     document.documentElement.setAttribute("data-theme", theme);
     if (persist) {
       try {
-        localStorage.setItem("rewind-theme", theme);
+        localStorage.setItem("vault-theme", theme);
       } catch (err) {
         /* private mode */
       }
@@ -27,16 +32,16 @@
   }
 
   var params = new URLSearchParams(location.search);
-  var fromQuery = params.get("theme");
+  var fromQuery = normalize(params.get("theme"));
   var saved = readSaved();
-  var initial = THEMES[fromQuery] ? fromQuery : THEMES[saved] ? saved : "classic";
-  paint(initial, Boolean(THEMES[fromQuery]));
+  var initial = fromQuery || saved || "chimp";
+  paint(initial, Boolean(fromQuery));
 
   window.__setTheme = function (theme) {
     paint(theme, true);
   };
 
   window.__syncTheme = function () {
-    paint(document.documentElement.getAttribute("data-theme") || "classic", false);
+    paint(document.documentElement.getAttribute("data-theme") || "chimp", false);
   };
 })();
