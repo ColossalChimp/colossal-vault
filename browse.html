@@ -143,6 +143,7 @@
   </div>
   <script src="js/shell.js"></script>
   <script src="js/catalog.js"></script>
+  <script src="js/vault.js"></script>
   <script src="js/browser.js"></script>
   <script>
     (function () {
@@ -206,6 +207,16 @@
       document.querySelector(".browse").addEventListener("click", function () {
         setTimeout(paintSpines, 0);
       });
+      if (window.Vault) {
+        Vault.items("?sort=recent&limit=8").then(function (payload) {
+          var row = document.querySelector(".face .shelf-row");
+          payload.items.forEach(function (item) { window.REWIND.byId[item.id] = item; });
+          row.innerHTML = payload.items.map(Vault.vhs).join("");
+          window.REWIND.fillCovers(row);
+          paintSpines();
+          paintPosters();
+        }).catch(function () {});
+      }
     })();
   </script>
 </body>

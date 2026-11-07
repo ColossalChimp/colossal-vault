@@ -57,4 +57,13 @@
   document.title = name + " — " + screen;
 
   if (window.__syncTheme) window.__syncTheme();
+
+  fetch("/api/v1/stats")
+    .then(function (response) { return response.ok ? response.json() : null; })
+    .then(function (stats) {
+      if (!stats) return;
+      var strong = header.querySelector(".member-chip strong");
+      if (strong) strong.textContent = stats.titlesLabel;
+    })
+    .catch(function () {});
 })();

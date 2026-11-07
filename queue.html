@@ -75,14 +75,14 @@
         <section class="banner">
           <article class="panel">
             <p class="kicker">Bin drop</p>
-            <h2>~/Pictures/Vault/Saturday</h2>
+            <h2 data-live="path">~/Pictures/Vault/Saturday</h2>
           </article>
-          <article class="panel"><span class="kicker">Files</span><div class="num">240</div></article>
-          <article class="panel"><span class="kicker">Ready</span><div class="num cyan">190</div></article>
-          <article class="panel"><span class="kicker">Need a label</span><div class="num gold">50</div></article>
+          <article class="panel"><span class="kicker">Files</span><div class="num" data-live="files">240</div></article>
+          <article class="panel"><span class="kicker">Ready</span><div class="num cyan" data-live="ready">190</div></article>
+          <article class="panel"><span class="kicker">Need a label</span><div class="num gold" data-live="hold">50</div></article>
           <div class="actions">
-            <button type="button" class="btn solid">File the 190</button>
-            <button type="button" class="btn ghost">Hold the rest</button>
+            <button type="button" class="btn solid" id="file-batch">File the 190</button>
+            <label class="btn ghost">Add photos<input id="add-photos" type="file" accept="image/*" multiple hidden /></label>
           </div>
         </section>
         <div class="counter">
@@ -144,6 +144,107 @@
   </div>
   <script src="js/shell.js"></script>
   <script src="js/catalog.js"></script>
+  <script src="js/vault.js"></script>
+  <script>
+    var jobs = [];
+    var selected = null;
+    function statusClass(status) {
+      if (status === "ready") return "ready";
+      if (status === "tracking") return "tracking";
+      if (status === "filed") return "filed";
+      return "hold";
+    }
+    function statusWord(status) {
+      if (status === "needs_label") return "Label";
+      return status.charAt(0).toUpperCase() + status.slice(1).replace("_", " ");
+    }
+    function renderJobs() {
+      var list = document.querySelector(".queue-list");
+      list.innerHTML = jobs.map(function (job) {
+        var thumb = job.photoId
+          ? '<img alt="" src="/api/v1/photos/' + job.photoId + '" />'
+          : '<span class="art" data-cover="' + (job.itemId || "") + '"></span>';
+        return '<button type="button" class="q-item' + (selected && selected.id === job.id ? " is-active" : "") +
+          '" data-job="' + job.id + '"><span class="q-thumb">' + thumb + '</span><span class="q-copy"><strong>' +
+          job.title + '</strong><small>' + job.aisle + (job.confidence ? " · " + job.confidence : "") +
+          '</small></span><span class="status ' + statusClass(job.status) + '">' + statusWord(job.status) + "</span></button>";
+      }).join("");
+      if (window.REWIND) window.REWIND.fillCovers(list);
+    }
+    function showJob(job) {
+      selected = job;
+      document.querySelector(".receipt h3").textContent = job.title;
+      var rows = document.querySelectorAll(".slip-row b");
+      if (rows[0]) rows[0].textContent = job.aisle;
+      if (rows[1]) rows[1].textContent = job.meta || "—";
+      if (rows[2]) rows[2].textContent = job.confidence || "—";
+      document.querySelector(".crt-tag").lastChild.textContent = " Tracking · " + (job.note || job.id);
+      var art = document.querySelector(".crt .art");
+      if (job.photoId) {
+        art.innerHTML = '<img alt="" src="/api/v1/photos/' + job.photoId + '" style="width:100%;height:100%;object-fit:cover" />';
+      } else if (job.itemId && window.REWIND.byId[job.itemId]) {
+        art.dataset.cover = job.itemId;
+        window.REWIND.fillCovers(art.parentNode);
+      }
+      renderJobs();
+    }
+    function loadJobs() {
+      return Vault.jobs().then(function (payload) {
+        jobs = payload.jobs;
+        if (!selected && jobs.length) selected = jobs[0];
+        else if (selected) selected = jobs.filter(function (job) { return job.id === selected.id; })[0] || jobs[0];
+        renderJobs();
+        if (selected) showJob(selected);
+      });
+    }
+    document.querySelector(".queue-list").addEventListener("click", function (event) {
+      var button = event.target.closest("[data-job]");
+      if (!button) return;
+      var job = jobs.filter(function (entry) { return entry.id === button.dataset.job; })[0];
+      if (job) showJob(job);
+    });
+    document.querySelector(".receipt .btn.solid").addEventListener("click", function (event) {
+      if (!selected) return;
+      event.preventDefault();
+      Vault.request("/api/v1/jobs/" + selected.id + "/file", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: selected.title, category: selected.category, value: selected.value, location: selected.location, meta: selected.meta })
+      }).then(function () { return loadJobs(); });
+    });
+    document.getElementById("file-batch").addEventListener("click", function () {
+      Vault.request("/api/v1/batch/file", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" })
+        .then(function (payload) {
+          document.querySelector("[data-live=ready]").textContent = "0";
+          document.getElementById("file-batch").textContent = "Filed " + payload.filed;
+        });
+    });
+    document.getElementById("add-photos").addEventListener("change", function (event) {
+      var files = Array.prototype.slice.call(event.target.files || []);
+      files.reduce(function (chain, file) {
+        return chain.then(function () {
+          return file.arrayBuffer().then(function (buffer) {
+            var bytes = new Uint8Array(buffer);
+            var binary = "";
+            for (var i = 0; i < bytes.length; i += 1) binary += String.fromCharCode(bytes[i]);
+            return Vault.request("/api/v1/captures", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ filename: file.name, mime: file.type || "image/jpeg", data: btoa(binary) })
+            });
+          });
+        });
+      }, Promise.resolve()).then(loadJobs);
+    });
+    Vault.request("/api/v1/batch").then(function (batch) {
+      document.querySelector("[data-live=path]").textContent = batch.path;
+      document.querySelector("[data-live=files]").textContent = String(batch.files);
+      document.querySelector("[data-live=ready]").textContent = String(batch.ready);
+      document.querySelector("[data-live=hold]").textContent = String(batch.hold);
+      document.getElementById("file-batch").textContent = "File the " + batch.ready;
+    }).catch(function () {});
+    loadJobs().catch(function () {});
+  </script>
   <script>
     document.getElementById("lookup").addEventListener("input", function (event) {
       var q = event.target.value.trim().toLowerCase();

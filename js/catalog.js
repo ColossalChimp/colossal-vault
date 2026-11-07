@@ -751,7 +751,9 @@
     root.dataset.detail = entry.id;
     root.querySelectorAll("[data-bind]").forEach(function (el) {
       var key = el.dataset.bind;
-      if (entry[key] != null) el.textContent = entry[key];
+      if (entry[key] == null) return;
+      if (el.tagName === "INPUT") el.value = entry[key];
+      else el.textContent = entry[key];
     });
     root.querySelectorAll("[data-cover]").forEach(function (el) {
       el.dataset.cover = entry.id;

@@ -14,7 +14,6 @@
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
       grid-template-rows: minmax(0, 1fr) 252px;
-    .picks .toolbar { min-height: 0; }
       gap: 10px;
       padding: 12px 14px 10px;
     }
@@ -120,6 +119,7 @@
     [data-theme="chimp"] .door strong,
     [data-theme="cyber"] .door strong { font-size: 16px; letter-spacing: 0.1em; text-transform: uppercase; }
     .picks { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 6px; }
+    .picks .toolbar { min-height: 0; }
     .picks .vhs { height: 156px; width: auto; flex: 1; }
     .picks .shelf { padding-bottom: 8px; }
     .picks .shelf::after { box-shadow: none; }
@@ -138,21 +138,21 @@
             <h2 class="wordmark" data-brand>Colossal Vault</h2>
             <p class="lede">Pick an aisle, or take a new release off the low shelf.</p>
             <div class="readouts">
-              <a class="readout" href="stats.html"><span>Titles</span><b>35,153</b></a>
-              <a class="readout hot" href="stats.html"><span>Est. value</span><b>$206,450</b></a>
-              <a class="readout" href="queue.html"><span>In the drop</span><b>12</b></a>
+              <a class="readout" href="stats.html"><span>Titles</span><b data-live="titles">35,153</b></a>
+              <a class="readout hot" href="stats.html"><span>Est. value</span><b data-live="value">$206,450</b></a>
+              <a class="readout" href="queue.html"><span>In the drop</span><b data-live="drop">12</b></a>
             </div>
-            <p class="mover">Top mover · <a href="item.html?id=lotus">Black Lotus +$800</a> · 190 ready to file from Saturday</p>
+            <p class="mover" data-live="mover">Top mover · <a href="item.html?id=lotus">Black Lotus +$800</a> · 190 ready to file from Saturday</p>
             <span class="aisle-sign"><span>Be kind, rewind</span></span>
           </div>
         </section>
         <div class="doors">
-          <a class="door" data-cat="comic" href="browse.html?aisle=comic"><span>Aisle 01</span><strong>Comics</strong><em>10,482</em></a>
-          <a class="door" data-cat="mtg" href="browse.html?aisle=mtg"><span>Aisle 02</span><strong>Magic</strong><em>19,847</em></a>
-          <a class="door" data-cat="cards" href="browse.html?aisle=cards"><span>Aisle 03</span><strong>Cards</strong><em>2,150</em></a>
-          <a class="door" data-cat="funko" href="browse.html?aisle=funko"><span>Aisle 04</span><strong>Funko</strong><em>1,306</em></a>
-          <a class="door" data-cat="game" href="browse.html?aisle=game"><span>Aisle 05</span><strong>Games</strong><em>640</em></a>
-          <a class="door" data-cat="manga" href="browse.html?aisle=manga"><span>Aisle 06</span><strong>Manga</strong><em>410</em></a>
+          <a class="door" data-cat="comic" data-aisle="comic" href="browse.html?aisle=comic"><span>Aisle 01</span><strong>Comics</strong><em>10,482</em></a>
+          <a class="door" data-cat="mtg" data-aisle="mtg" href="browse.html?aisle=mtg"><span>Aisle 02</span><strong>Magic</strong><em>19,847</em></a>
+          <a class="door" data-cat="cards" data-aisle="cards" href="browse.html?aisle=cards"><span>Aisle 03</span><strong>Cards</strong><em>2,150</em></a>
+          <a class="door" data-cat="funko" data-aisle="funko" href="browse.html?aisle=funko"><span>Aisle 04</span><strong>Funko</strong><em>1,306</em></a>
+          <a class="door" data-cat="game" data-aisle="game" href="browse.html?aisle=game"><span>Aisle 05</span><strong>Games</strong><em>640</em></a>
+          <a class="door" data-cat="manga" data-aisle="manga" href="browse.html?aisle=manga"><span>Aisle 06</span><strong>Manga</strong><em>410</em></a>
         </div>
         <section class="picks">
           <div class="toolbar">
@@ -175,5 +175,31 @@
   </div>
   <script src="js/shell.js"></script>
   <script src="js/catalog.js"></script>
+  <script src="js/vault.js"></script>
+  <script>
+    Vault.stats().then(function (stats) {
+      document.querySelector("[data-live=titles]").textContent = stats.titlesLabel;
+      document.querySelector("[data-live=value]").textContent = stats.valueLabel;
+      document.querySelector("[data-live=drop]").textContent = String(stats.drop);
+      var mover = stats.topMover;
+      if (mover) {
+        document.querySelector("[data-live=mover]").innerHTML =
+          "Top mover · <a href=\"item.html?id=" + mover.id + "\">" + mover.title + " " + mover.deltaLabel + "</a> · " +
+          stats.batch.ready + " ready to file from Saturday";
+      }
+      var byId = {};
+      stats.aisles.forEach(function (aisle) { byId[aisle.id] = aisle; });
+      document.querySelectorAll(".door[data-aisle]").forEach(function (door) {
+        var aisle = byId[door.dataset.aisle];
+        if (aisle) door.querySelector("em").textContent = aisle.countLabel;
+      });
+      var row = document.querySelector(".picks .shelf-row");
+      if (row && stats.recent) {
+        row.innerHTML = stats.recent.map(Vault.vhs).join("");
+        stats.recent.forEach(function (item) { window.REWIND.byId[item.id] = item; });
+        window.REWIND.fillCovers(row);
+      }
+    }).catch(function () {});
+  </script>
 </body>
 </html>

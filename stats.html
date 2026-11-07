@@ -140,5 +140,48 @@
   </div>
   <script src="js/shell.js"></script>
   <script src="js/catalog.js"></script>
+  <script src="js/vault.js"></script>
+  <script>
+    Vault.stats().then(function (stats) {
+      document.querySelectorAll(".top .stat .num").forEach(function (node, index) {
+        if (index === 0) node.textContent = stats.titlesLabel;
+        if (index === 1) node.textContent = stats.valueLabel;
+      });
+      var cardCount = document.querySelector(".card-foot b");
+      if (cardCount) cardCount.textContent = stats.titlesLabel;
+      var byId = {};
+      stats.aisles.forEach(function (aisle) { byId[aisle.id] = aisle; });
+      document.querySelectorAll(".trophy").forEach(function (trophy) {
+        var aisle = byId[trophy.dataset.cat];
+        if (!aisle) return;
+        trophy.querySelector(".num").textContent = aisle.countLabel;
+        trophy.querySelector("em").textContent = aisle.valueLabel;
+      });
+      document.querySelectorAll(".stock").forEach(function (row) {
+        var aisle = byId[row.dataset.cat];
+        if (!aisle) return;
+        var max = stats.aisles[0] ? stats.aisles.reduce(function (n, item) { return Math.max(n, item.count); }, 1) : 1;
+        row.querySelector("b").textContent = aisle.countLabel;
+        row.querySelector(".track span").style.width = Math.max(2, Math.round(aisle.count / max * 100)) + "%";
+      });
+      var lines = document.querySelectorAll(".receipt .slip-row");
+      stats.aisles.forEach(function (aisle, index) {
+        if (!lines[index]) return;
+        lines[index].querySelector("span").textContent = aisle.name;
+        lines[index].querySelector("b").textContent = aisle.countLabel;
+      });
+      var totals = lines[stats.aisles.length];
+      var valueRow = lines[stats.aisles.length + 1];
+      if (totals) totals.querySelector("b").textContent = stats.titlesLabel;
+      if (valueRow) valueRow.querySelector("b").textContent = stats.valueLabel;
+      if (stats.topMover) {
+        var top = document.querySelectorAll(".top .stat")[2];
+        if (top) {
+          top.querySelector(".num").textContent = stats.topMover.spine || stats.topMover.title;
+          top.querySelector(".fine").textContent = stats.topMover.title + " · " + stats.topMover.deltaLabel + " this month";
+        }
+      }
+    }).catch(function () {});
+  </script>
 </body>
 </html>

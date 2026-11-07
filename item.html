@@ -87,6 +87,16 @@
     .slip-row span { opacity: 0.7; }
     .dialog { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
     .dialog h3 { margin: 0; font-family: var(--font-display); font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; }
+    .dlg-field input {
+      min-height: 32px;
+      padding: 0 8px;
+      border-radius: calc(var(--radius) - 2px);
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 14px;
+    }
     .actions { display: flex; gap: 8px; }
   </style>
 </head>
@@ -159,15 +169,16 @@
           </article>
           <form class="dialog" action="#" onsubmit="return false">
             <h3>Correct the label</h3>
-            <label class="dlg-field"><span>Title</span><b data-bind="title">The One Ring</b></label>
+            <label class="dlg-field"><span>Title</span><input data-bind="title" value="The One Ring" /></label>
             <div class="field-grid">
-              <label class="dlg-field"><span>Aisle</span><b data-bind="aisle">Magic</b></label>
-              <label class="dlg-field"><span>Condition</span><b data-bind="condition">Near Mint</b></label>
+              <label class="dlg-field"><span>Condition</span><input data-bind="condition" value="Near Mint" /></label>
+              <label class="dlg-field"><span>Value</span><input data-bind="value" value="89" /></label>
             </div>
-            <label class="dlg-field"><span>Bin</span><b data-bind="location">Binder · Mythic</b></label>
+            <label class="dlg-field"><span>Bin</span><input data-bind="location" value="Binder · Mythic" /></label>
+            <p class="note" id="save-note"></p>
             <div class="actions">
-              <button type="button" class="btn solid">File it</button>
-              <button type="button" class="btn ghost">Hold</button>
+              <button type="button" class="btn solid" id="save-case">File it</button>
+              <button type="button" class="btn ghost" id="guide-case">Price guide</button>
             </div>
           </form>
         </aside>
@@ -176,5 +187,52 @@
   </div>
   <script src="js/shell.js"></script>
   <script src="js/catalog.js"></script>
+  <script src="js/vault.js"></script>
+  <script>
+    var itemId = new URLSearchParams(location.search).get("id") || "one-ring";
+    function currentItem() {
+      return window.REWIND.byId[itemId];
+    }
+    Vault.request("/api/v1/items/" + encodeURIComponent(itemId)).then(function (item) {
+      itemId = item.id;
+      Vault.paintItem(item);
+    }).catch(function () {});
+    document.getElementById("save-case").addEventListener("click", function () {
+      var root = document.querySelector("[data-detail]");
+      var body = {
+        title: root.querySelector('input[data-bind="title"]').value,
+        condition: root.querySelector('[data-bind="condition"]').value,
+        location: root.querySelector('[data-bind="location"]').value,
+        value: Number(root.querySelector('[data-bind="value"]').value)
+      };
+      Vault.request("/api/v1/items/" + encodeURIComponent(itemId), {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      }).then(function (item) {
+        Vault.paintItem(item);
+        document.getElementById("save-note").textContent = "Filed on the shelf.";
+      }).catch(function (err) {
+        document.getElementById("save-note").textContent = err.message;
+      });
+    });
+    document.getElementById("guide-case").addEventListener("click", function () {
+      var item = currentItem();
+      var query = item ? item.title : "";
+      Vault.request("/api/v1/scryfall?q=" + encodeURIComponent(query)).then(function (payload) {
+        var card = (payload.cards || [])[0];
+        var note = document.getElementById("save-note");
+        if (!card) {
+          note.textContent = "No price-guide hit for that title.";
+          return;
+        }
+        var price = card.usd || card.usdFoil;
+        if (price) document.querySelector('[data-bind="value"]').value = price;
+        note.textContent = card.name + " · " + card.set + " · " + card.collectorNumber + (price ? " · $" + price : "");
+      }).catch(function (err) {
+        document.getElementById("save-note").textContent = err.message;
+      });
+    });
+  </script>
 </body>
 </html>
