@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Colossal Vault — Quick Commands</title>
+  <style>
+    @page { size: letter; margin: 0.45in; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: #e7ebf2; color: #1a2129; }
+    body {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 11px;
+      line-height: 1.35;
+    }
+    .sheet {
+      width: 8.5in;
+      min-height: 11in;
+      margin: 16px auto;
+      padding: 0.42in 0.48in 0.4in;
+      background: #fff;
+      box-shadow: 0 12px 40px rgb(0 0 0 / 18%);
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      border-bottom: 3px solid #f830a0;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 650;
+    }
+    header p { margin: 2px 0 0; color: #5c6474; letter-spacing: 0.12em; text-transform: uppercase; font-size: 10px; }
+    .meta { text-align: right; color: #5c6474; font-size: 10px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px; }
+    section h2 {
+      margin: 8px 0 4px;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #f830a0;
+    }
+    code, pre {
+      font-family: inherit;
+      font-size: 10.5px;
+    }
+    pre {
+      margin: 0 0 4px;
+      padding: 5px 7px;
+      background: #f4f6f8;
+      border: 1px solid #d5dbe3;
+      border-radius: 4px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    ul { margin: 0; padding-left: 1.1em; }
+    li { margin: 1px 0; }
+    a { color: inherit; }
+    footer {
+      margin-top: 10px;
+      padding-top: 6px;
+      border-top: 1px dashed #c5ccd6;
+      display: flex;
+      justify-content: space-between;
+      color: #5c6474;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 10px;
+    }
+    .noprint { margin: 12px auto; width: 8.5in; text-align: right; }
+    button {
+      font: inherit;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: #f830a0;
+      color: #fff;
+      border: 0;
+      border-radius: 4px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    @media print {
+      html, body { background: #fff; }
+      .sheet { margin: 0; box-shadow: none; width: auto; min-height: auto; padding: 0; }
+      .noprint { display: none; }
+      pre { background: #fff; }
+      a { text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="noprint"><button type="button" onclick="print()">Print this sheet</button></div>
+  <article class="sheet">
+    <header>
+      <div>
+        <h1>Colossal Vault</h1>
+        <p>Quick commands · Collection desk</p>
+      </div>
+      <div class="meta">
+        Chimp.OS section<br />
+        http://127.0.0.1:43123/
+      </div>
+    </header>
+    <div class="grid">
+      <section>
+        <h2>Start</h2>
+        <pre>python3 server/vault.py</pre>
+        <p>Leave that process running. Port <code>43123</code>, or set <code>PORT</code>. Data: <code>data/vault.sqlite</code>. Photos: <code>data/photos/</code>.</p>
+        <h2>If the browser says connection refused</h2>
+        <pre>curl -sv --max-time 3 http://127.0.0.1:43123/api/v1/health
+ps aux | grep vault.py</pre>
+        <p>Refused means the process is down. Start it again. A running server answers <code>{"ok": true}</code>.</p>
+        <h2>Screens</h2>
+        <ul>
+          <li><code>/</code> draft index</li>
+          <li><code>/home.html</code> lobby</li>
+          <li><code>/browse.html</code> wall</li>
+          <li><code>/item.html?id=one-ring</code> case</li>
+          <li><code>/queue.html</code> drop</li>
+          <li><code>/stats.html</code> close</li>
+        </ul>
+        <h2>Theme</h2>
+        <pre>?theme=chimp
+?theme=classic</pre>
+        <p>Choice sticks in <code>vault-theme</code>. Top bar: Chimp.OS or Classic.</p>
+      </section>
+      <section>
+        <h2>Look something up</h2>
+        <pre>curl -s http://127.0.0.1:43123/api/v1/stats
+curl -s 'http://127.0.0.1:43123/api/v1/items?sort=value&amp;limit=5'
+curl -s http://127.0.0.1:43123/api/v1/items/lotus
+curl -s 'http://127.0.0.1:43123/api/v1/scryfall?q=Lightning%20Bolt'</pre>
+        <h2>File and export</h2>
+        <pre>curl -s http://127.0.0.1:43123/api/v1/jobs
+curl -s -o vault.csv http://127.0.0.1:43123/api/v1/export.csv
+curl -s -X POST http://127.0.0.1:43123/api/v1/batch/file \
+  -H 'Content-Type: application/json' -d '{}'</pre>
+        <p>On the queue screen, <strong>Add photos</strong> drops a picture in. No vision key: it waits as “Needs a title.” Set <code>VISION_API_KEY</code> or <code>OPENAI_API_KEY</code> to read the photo. On a case, <strong>Price guide</strong> hits Scryfall. <strong>File it</strong> saves the label.</p>
+        <h2>Name</h2>
+        <pre>js/brand.js
+window.PRODUCT_NAME = "Colossal Vault";</pre>
+      </section>
+    </div>
+    <footer>
+      <span>Be kind, rewind</span>
+      <span>One sheet · desk copy</span>
+    </footer>
+  </article>
+</body>
+</html>

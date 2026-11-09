@@ -17,7 +17,7 @@ Change that string and every screen that uses `data-brand` picks it up.
 python3 server/vault.py
 ```
 
-Open [http://127.0.0.1:43123/](http://127.0.0.1:43123/). The process serves the screens and the collection API. Records are stored in `data/vault.sqlite` (created on first run). Photos from the queue land in `data/photos/`.
+Open [http://127.0.0.1:43123/](http://127.0.0.1:43123/). A one-page command sheet is at [quick.html](quick.html) (print from the browser). The process serves the screens and the collection API. Records are stored in `data/vault.sqlite` (created on first run). Photos from the queue land in `data/photos/`.
 
 `VISION_API_KEY` or `OPENAI_API_KEY` turns on photo identification. With no key, a new photo still enters the drop as “Needs a title” and can be filed by hand. Magic titles can use **Price guide** on a case, which reads the public Scryfall API. CSV export is `GET /api/v1/export.csv`. Import is `POST /api/v1/import` with `{"csv":"..."}`.
 
